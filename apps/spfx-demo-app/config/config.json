@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "taxonomy-picker-demo-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/taxonomyPickerDemo/TaxonomyPickerDemoWebPart.js",
+          "manifest": "./src/webparts/taxonomyPickerDemo/TaxonomyPickerDemoWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "TaxonomyPickerDemoWebPartStrings": "lib/webparts/taxonomyPickerDemo/loc/{locale}.js"
+  }
+}

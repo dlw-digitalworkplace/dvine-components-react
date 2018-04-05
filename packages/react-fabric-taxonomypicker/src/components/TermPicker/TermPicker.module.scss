@@ -1,0 +1,65 @@
+@import "~office-ui-fabric-react/dist/sass/variables/_Color.Variables.scss";
+@import "~office-ui-fabric-react/dist/sass/variables/_Font.Variables.scss";
+@import "~office-ui-fabric-react/dist/sass/variables/_General.Variables.scss";
+
+.termItem {
+  box-sizing: content-box;
+  flex-shrink: 1;
+  background: $ms-color-neutralLighter;
+  margin: 2px;
+  height: 26px;
+  line-height: 26px;
+  cursor: default;
+  user-select: none;
+  display: flex;
+  flex-wrap: nowrap;
+  max-width: 300px;
+
+  &:hover {
+    background: $ms-color-neutralLight;
+  }
+
+  &.isSelected {
+    background: $ms-color-neutralQuaternary;
+
+    &:hover {
+      background: $ms-color-neutralQuaternaryAlt;
+    }
+  }
+}
+
+.termItemText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 30px;
+  margin: 0 8px;
+}
+
+.termItemClose {
+  cursor: pointer;
+  color: $ms-color-neutralSecondary;
+  font-size: $ms-font-size-s;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  width: 30px;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.termItemButton {
+  width: 100%;
+  height: 100%;
+}
+
+.termSuggestion {
+  max-width: 60vw;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+
+  .termPath {
+    font-size: 0.8em;
+  }
+}

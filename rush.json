@@ -1,0 +1,27 @@
+{
+  "npmVersion": "3.10.10",
+  "rushVersion": "4.3.2",
+  "nodeSupportedVersionRange": ">=6.9.0 <9.0.0",
+  "projects": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "projectFolder": "packages/react-fabric-taxonomypicker",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "spfx-demo-app",
+      "projectFolder": "apps/spfx-demo-app",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@dlw-digitalworkplace/build",
+      "projectFolder": "scripts",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@dlw-digitalworkplace/dvine-components-tslint",
+      "projectFolder": "packages/dvine-components-tslint",
+      "shouldPublish": false
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/coverage": true,
+    "**/*.scss.ts": true
+  },
+  "files.watcherExclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/lib": true,
+    "**/lib-amd": true,
+    "/**lib-es2015": true,
+    "**/temp": true,
+    "**/dist": true,
+    "**/*.scss.ts": true,
+    "**/coverage": true
+  },
+  "search.exclude": {
+    "common": true,
+    "**/node_modules": true,
+    "**/lib": true,
+    "**/lib-amd": true,
+    "**/lib-es2015": true,
+    "**/dist": true,
+    "**/*.scss.ts": true
+  },
+  "tslint.exclude": ["**/*.scss.ts", "**/node_modules/**"],
+  "typescript.tsdk": ".\\node_modules\\typescript\\lib",
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  "typescriptHero.imports.multiLineWrapThreshold": 100,
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.stringQuoteStyle": "\""
+}

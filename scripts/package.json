@@ -1,0 +1,35 @@
+{
+  "name": "@dlw-digitalworkplace/build",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "clean": "",
+    "build": "node -v"
+  },
+  "devDependencies": {
+    "@microsoft/loader-load-themed-styles": "^1.7.29",
+    "@microsoft/rush": "4.1.0",
+    "autoprefixer": "^8.2.0",
+    "awesome-typescript-loader": "^4.0.1",
+    "chalk": "^2.3.2",
+    "command-line-args": "^5.0.2",
+    "cpx": "^1.5.0",
+    "css-loader": "^0.28.11",
+    "json-loader": "^0.5.7",
+    "node-sass": "^4.8.3",
+    "postcss": "^6.0.21",
+    "postcss-loader": "^2.1.3",
+    "postcss-modules": "^1.1.0",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.7",
+    "source-map-loader": "^0.2.3",
+    "tslint": "^5.9.1",
+    "tslint-microsoft-contrib": "^5.0.3",
+    "typescript": "^2.8.1",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^3.11.0",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-dev-server": "^2.11.2",
+    "webpack-notifier": "^1.6.0"
+  }
+}

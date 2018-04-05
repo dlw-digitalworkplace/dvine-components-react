@@ -1,0 +1,12 @@
+.wrapper {
+  box-sizing: border-box;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+
+  .termPicker {
+    flex-grow: 1;
+  }
+}

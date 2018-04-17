@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.0.2",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.2",
+      "date": "Tue, 17 Apr 2018 06:40:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed itemLimit passthrough"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.1",
       "date": "Sun, 15 Apr 2018 15:00:10 GMT",

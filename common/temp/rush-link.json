@@ -1,0 +1,8 @@
+{
+  "localLinks": {
+    "@dlw-digitalworkplace/react-fabric-taxonomypicker": [
+      "@dlw-digitalworkplace/dvine-components-tslint"
+    ],
+    "spfx-demo-app": ["@dlw-digitalworkplace/react-fabric-taxonomypicker"]
+  }
+}

@@ -12,7 +12,7 @@ import { ITaxonomyPickerDemoProps } from "./components/ITaxonomyPickerDemoProps"
 import TaxonomyPickerDemo from "./components/TaxonomyPickerDemo";
 
 export interface ITaxonomyPickerDemoWebPartProps {
-  description: string;
+  termSetId: string;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -22,7 +22,8 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
     const element: React.ReactElement<ITaxonomyPickerDemoProps> = React.createElement(
       TaxonomyPickerDemo,
       {
-        siteUrl: this.context.pageContext.site.serverRelativeUrl
+        siteUrl: this.context.pageContext.site.serverRelativeUrl,
+        termSetId: this.properties.termSetId
       }
     );
 
@@ -44,8 +45,8 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneTextField("termSetId", {
+                  label: strings.TermSetIdFieldLabel
                 })
               ]
             }

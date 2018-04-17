@@ -73,6 +73,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
             selectedItems={this.state.selectedItems}
             onChange={this._onSelectedItemsChanged}
             pickerSuggestionsProps={this.props.pickerSuggestionsProps}
+            itemLimit={this.props.itemLimit}
           />
         </div>
 
@@ -168,23 +169,26 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
   @autobind
   private _addSelectedTerm(): void {
-    const currentItems = this.state.selectedItems;
-
-    if (
-      this.state.selectedTreeItem &&
-      !currentItems.some((value: ITerm) => value.id === this.state.selectedTreeItem!.id)
-    ) {
-      const newItems = [...currentItems, this.state.selectedTreeItem];
-      this._onSelectedItemsChanged(newItems);
+    if (this.state.selectedTreeItem) {
+      this._addItem(this.state.selectedTreeItem);
     }
   }
 
   @autobind
   private _onTreeItemInvoked(item: ITreeViewItem<ITerm>): void {
+    this._addItem(item.value!);
+  }
+
+  @autobind
+  private _addItem(itemToAdd: ITerm): void {
     const currentItems = this.state.selectedItems;
 
-    if (!currentItems.some((value: ITerm) => value.id === item.id)) {
-      const newItems = [...currentItems, item.value!];
+    if (
+      this.props.itemLimit &&
+      this.props.itemLimit > currentItems.length &&
+      !currentItems.some((value: ITerm) => value.id === itemToAdd.id)
+    ) {
+      const newItems = [...currentItems, itemToAdd];
       this._onSelectedItemsChanged(newItems);
     }
   }

@@ -1,7 +1,7 @@
 declare interface ITaxonomyPickerDemoWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
+  TermSetIdFieldLabel: string;
 }
 
 declare module "TaxonomyPickerDemoWebPartStrings" {

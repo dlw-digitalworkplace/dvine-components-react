@@ -8,6 +8,7 @@ export interface ITaxonomyDialogProps extends IBaseProps {
   termSetId: string;
   defaultSelectedItems?: ITerm[];
   pickerSuggestionsProps?: IBasePickerSuggestionsProps;
+  itemLimit?: number;
 
   isOpen?: boolean;
 

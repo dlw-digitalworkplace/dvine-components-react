@@ -1,7 +1,7 @@
 define([], function() {
   return {
-    PropertyPaneDescription: "Description",
-    BasicGroupName: "Group Name",
-    DescriptionFieldLabel: "Description Field"
+    PropertyPaneDescription: "Configure the taxonomypicker demo",
+    BasicGroupName: "Basic configuration",
+    TermSetIdFieldLabel: "Term Set Id"
   };
 });

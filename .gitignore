@@ -39,7 +39,7 @@ $RECYCLE.BIN/
 dist.stats.json
 bower_components
 node_modules
-temp
+temp/*
 lib
 lib-amd
 lib-es2015
@@ -100,7 +100,8 @@ package
 
 # Dependency change files generated from npmx aka rush
 package-deps.json
-common/temp
+common/temp/*
+!common/temp/rush-link.json
 
 # Gulp cache
 gulp-cache

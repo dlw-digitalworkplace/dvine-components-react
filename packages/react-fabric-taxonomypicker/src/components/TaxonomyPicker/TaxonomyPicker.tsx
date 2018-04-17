@@ -109,6 +109,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               isOpen={this.state.isPopupOpen}
               onDismiss={this._closeDialog}
               onSave={this._onSelectedItemsChanged}
+              itemLimit={this.props.itemLimit}
             />
           )}
         </div>

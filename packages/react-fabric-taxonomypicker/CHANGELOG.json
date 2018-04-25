@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.0.3",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.3",
+      "date": "Wed, 25 Apr 2018 14:34:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Removed confusing prop"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.2",
       "date": "Tue, 17 Apr 2018 06:40:15 GMT",

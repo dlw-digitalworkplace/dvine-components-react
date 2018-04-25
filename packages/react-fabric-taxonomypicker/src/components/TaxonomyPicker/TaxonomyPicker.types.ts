@@ -14,7 +14,6 @@ export interface ITaxonomyPickerProps extends IBaseProps {
   onChange?: (newValue?: ITerm[]) => void;
   selectedItems?: ITerm[];
   defaultSelectedItems?: ITerm[];
-  value?: ITerm[];
   pickerSuggestionsProps?: IBasePickerSuggestionsProps;
   iconProps?: IIconProps;
 }

@@ -13,6 +13,7 @@ import TaxonomyPickerDemo from "./components/TaxonomyPickerDemo";
 
 export interface ITaxonomyPickerDemoWebPartProps {
   termSetId: string;
+  itemLimit: number;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -23,7 +24,8 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
       TaxonomyPickerDemo,
       {
         siteUrl: this.context.pageContext.site.serverRelativeUrl,
-        termSetId: this.properties.termSetId
+        termSetId: this.properties.termSetId,
+        itemLimit: this.properties.itemLimit
       }
     );
 
@@ -47,6 +49,9 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
               groupFields: [
                 PropertyPaneTextField("termSetId", {
                   label: strings.TermSetIdFieldLabel
+                }),
+                PropertyPaneTextField("itemLimit", {
+                  label: strings.ItemLimitFieldLabel
                 })
               ]
             }

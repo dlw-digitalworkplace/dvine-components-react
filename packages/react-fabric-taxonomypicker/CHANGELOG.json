@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.0.4",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.4",
+      "date": "Fri, 27 Apr 2018 09:24:11 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed duplicate term selection"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.3",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.3",
       "date": "Wed, 25 Apr 2018 14:34:00 GMT",

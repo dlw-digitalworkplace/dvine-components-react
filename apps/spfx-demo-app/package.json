@@ -20,7 +20,7 @@
     "@microsoft/sp-lodash-subset": "~1.4.1",
     "@microsoft/sp-office-ui-fabric-core": "~1.4.1",
     "@types/webpack-env": ">=1.12.1 <1.14.0",
-    "@dlw-digitalworkplace/react-fabric-taxonomypicker": "1.0.3"
+    "@dlw-digitalworkplace/react-fabric-taxonomypicker": "1.0.4"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "~1.4.1",

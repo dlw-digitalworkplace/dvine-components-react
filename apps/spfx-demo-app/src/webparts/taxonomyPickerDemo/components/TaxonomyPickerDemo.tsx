@@ -12,7 +12,7 @@ export default class TaxonomyPickerDemo extends React.Component<ITaxonomyPickerD
           label="Demo picker"
           termSetId={this.props.termSetId}
           siteUrl={this.props.siteUrl}
-          itemLimit={1}
+          itemLimit={this.props.itemLimit}
         />
       </div>
     );

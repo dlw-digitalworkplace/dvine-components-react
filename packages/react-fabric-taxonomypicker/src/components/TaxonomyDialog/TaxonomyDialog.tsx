@@ -139,7 +139,9 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const taxonomyApi = new TaxonomyApi(apiContext);
     const matchingTerms = await taxonomyApi.findTerms(filter, true, false, 10, true);
 
-    return matchingTerms;
+    return matchingTerms.filter(
+      item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
+    );
   }
 
   @autobind

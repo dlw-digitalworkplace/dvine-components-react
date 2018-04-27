@@ -19,7 +19,12 @@
     "@microsoft/sp-webpart-base": "~1.4.1",
     "@microsoft/sp-lodash-subset": "~1.4.1",
     "@microsoft/sp-office-ui-fabric-core": "~1.4.1",
+    "@pnp/common": "^1.0.3",
+    "@pnp/logging": "^1.0.3",
+    "@pnp/odata": "^1.0.3",
+    "@pnp/sp": "^1.0.3",
     "@types/webpack-env": ">=1.12.1 <1.14.0",
+    "@dlw-digitalworkplace/react-fabric-peoplepicker": "1.0.0",
     "@dlw-digitalworkplace/react-fabric-taxonomypicker": "1.0.4"
   },
   "devDependencies": {

@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/taxonomyPickerDemo/TaxonomyPickerDemoWebPart.manifest.json"
         }
       ]
+    },
+    "people-picker-demo-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/peoplePickerDemo/PeoplePickerDemoWebPart.js",
+          "manifest": "./src/webparts/peoplePickerDemo/PeoplePickerDemoWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "TaxonomyPickerDemoWebPartStrings": "lib/webparts/taxonomyPickerDemo/loc/{locale}.js"
+    "TaxonomyPickerDemoWebPartStrings": "lib/webparts/taxonomyPickerDemo/loc/{locale}.js",
+    "PeoplePickerDemoWebPartStrings": "lib/webparts/peoplePickerDemo/loc/{locale}.js"
   }
 }

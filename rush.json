@@ -9,6 +9,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@dlw-digitalworkplace/react-fabric-peoplepicker",
+      "projectFolder": "packages/react-fabric-peoplepicker",
+      "shouldPublish": true
+    },
+    {
       "packageName": "spfx-demo-app",
       "projectFolder": "apps/spfx-demo-app",
       "shouldPublish": false

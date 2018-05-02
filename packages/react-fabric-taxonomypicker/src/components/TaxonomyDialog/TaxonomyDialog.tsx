@@ -186,8 +186,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const currentItems = this.state.selectedItems;
 
     if (
-      this.props.itemLimit &&
-      this.props.itemLimit > currentItems.length &&
+      (!this.props.itemLimit || this.props.itemLimit > currentItems.length) &&
       !currentItems.some((value: ITerm) => value.id === itemToAdd.id)
     ) {
       const newItems = [...currentItems, itemToAdd];

@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.0.5",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.5",
+      "date": "Wed, 02 May 2018 08:52:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed issue with itemLimit in picker dialog"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.4",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.0.4",
       "date": "Fri, 27 Apr 2018 09:24:11 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Fri, 27 Apr 2018 09:24:11 GMT and should not be manually modified.
+This log was last generated on Wed, 02 May 2018 08:52:55 GMT and should not be manually modified.
+
+## 1.0.5
+Wed, 02 May 2018 08:52:55 GMT
+
+### Patches
+
+- Fixed issue with itemLimit in picker dialog
 
 ## 1.0.4
 Fri, 27 Apr 2018 09:24:11 GMT

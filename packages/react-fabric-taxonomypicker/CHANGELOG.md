@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Wed, 02 May 2018 08:52:55 GMT and should not be manually modified.
+This log was last generated on Wed, 13 Jun 2018 13:53:24 GMT and should not be manually modified.
+
+## 1.1.0
+Wed, 13 Jun 2018 13:53:24 GMT
+
+### Minor changes
+
+- Added property to pass current site url
 
 ## 1.0.5
 Wed, 02 May 2018 08:52:55 GMT

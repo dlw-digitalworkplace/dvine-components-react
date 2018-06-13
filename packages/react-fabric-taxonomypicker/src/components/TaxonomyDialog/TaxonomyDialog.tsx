@@ -88,6 +88,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   @autobind
   private async _loadTermSetData(): Promise<void> {
     const apiContext: ITaxonomyApiContext = {
+      absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId
     };
 
@@ -108,7 +109,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   @autobind
   private _termToTreeViewItem(item: ITerm): ITreeViewItem<ITerm> {
     return {
-      id: item.id,
+      id: item.id!,
       label: item.name,
       value: {
         id: item.id,
@@ -133,6 +134,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   @autobind
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
+      absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId
     };
 

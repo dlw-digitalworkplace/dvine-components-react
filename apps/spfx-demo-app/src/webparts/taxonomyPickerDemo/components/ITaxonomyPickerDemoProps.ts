@@ -1,5 +1,5 @@
 export interface ITaxonomyPickerDemoProps {
-  siteUrl: string;
+  absoluteSiteUrl: string;
   termSetId: string;
   itemLimit: number;
 }

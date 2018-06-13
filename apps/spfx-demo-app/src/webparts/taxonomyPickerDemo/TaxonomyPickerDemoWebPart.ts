@@ -23,7 +23,7 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
     const element: React.ReactElement<ITaxonomyPickerDemoProps> = React.createElement(
       TaxonomyPickerDemo,
       {
-        siteUrl: this.context.pageContext.site.serverRelativeUrl,
+        absoluteSiteUrl: this.context.pageContext.site.serverRelativeUrl,
         termSetId: this.properties.termSetId,
         itemLimit: this.properties.itemLimit
       }

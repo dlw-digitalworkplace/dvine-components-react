@@ -5,6 +5,7 @@ import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/pickers"
 import { ITerm } from "../../model/ITerm";
 
 export interface ITaxonomyPickerProps extends IBaseProps {
+  absoluteSiteUrl: string;
   label?: string;
   required?: boolean;
   disabled?: boolean;

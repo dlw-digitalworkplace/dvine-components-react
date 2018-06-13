@@ -1,5 +1,5 @@
 export interface ITermData {
-  id: string;
+  id?: string;
   name: string;
   path: string;
   isSelectable: boolean;

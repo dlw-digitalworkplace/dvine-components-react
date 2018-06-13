@@ -4,7 +4,7 @@ import { createRef } from "@uifabric/utilities/lib/createRef";
 import { css } from "@uifabric/utilities/lib/css";
 import { IconButton } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
-import { IBasePicker } from "office-ui-fabric-react/lib/pickers";
+import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/pickers";
 import * as React from "react";
 
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
@@ -92,6 +92,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
             onChange={this._onSelectedItemsChanged}
             selectedItems={this.state.items}
             defaultSelectedItems={undefined}
+            onValidateInput={this._onValidateInput}
           />
 
           <IconButton
@@ -104,6 +105,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
           {this.state.isPopupOpen && (
             <TaxonomyDialog
+              absoluteSiteUrl={this.props.absoluteSiteUrl}
               defaultSelectedItems={this.state.items}
               termSetId={this.props.termSetId}
               isOpen={this.state.isPopupOpen}
@@ -120,6 +122,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   @autobind
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
+      absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId
     };
 
@@ -150,6 +153,15 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     if (this.props.onChange) {
       this.props.onChange(items);
     }
+  }
+
+  @autobind
+  private _onValidateInput(input: string): ValidationState {
+    return this.state.items.some(
+      item => !!item.properties!.isNew && item.name.toLowerCase() === input.toLowerCase()
+    )
+      ? ValidationState.invalid
+      : ValidationState.valid;
   }
 
   @autobind

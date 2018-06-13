@@ -1,10 +1,13 @@
-import { ITaxonomyPickerProps, TaxonomyPicker } from "@dlw-digitalworkplace/react-fabric-taxonomypicker";
+import {
+  ITaxonomyPickerProps,
+  TaxonomyPicker
+} from "@dlw-digitalworkplace/react-fabric-taxonomypicker";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { SPComponentLoader } from "@microsoft/sp-loader";
 import * as React from "react";
 
 export interface ITaxonomyPickerLoaderProps extends ITaxonomyPickerProps {
-  siteUrl: string;
+  absoluteSiteUrl: string;
 }
 
 export interface ITaxonomyPickerLoaderState {
@@ -55,35 +58,45 @@ export class TaxonomyPickerLoader extends React.Component<
   private async _loadSPJSOMScripts(): Promise<any> {
     await new Promise((resolve, reject) => setTimeout(() => resolve(), 500));
 
-    const siteColUrl: string = this.props.siteUrl;
+    const siteColUrl: string = this.props.absoluteSiteUrl;
 
     try {
       SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/init.js", {
         globalExportsName: "$_global_init"
       })
-        .then((): Promise<{}> => {
-          return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/MicrosoftAjax.js", {
-            globalExportsName: "Sys"
-          });
-        })
-        .then((): Promise<{}> => {
-          return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.Runtime.js", {
-            globalExportsName: "SP"
-          });
-        })
-        .then((): Promise<{}> => {
-          return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.js", {
-            globalExportsName: "SP"
-          });
-        })
-        .then((): Promise<{}> => {
-          return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.taxonomy.js", {
-            globalExportsName: "SP"
-          });
-        })
-        .then((): void => {
-          this.setState({ loadingScripts: false });
-        })
+        .then(
+          (): Promise<{}> => {
+            return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/MicrosoftAjax.js", {
+              globalExportsName: "Sys"
+            });
+          }
+        )
+        .then(
+          (): Promise<{}> => {
+            return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.Runtime.js", {
+              globalExportsName: "SP"
+            });
+          }
+        )
+        .then(
+          (): Promise<{}> => {
+            return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.js", {
+              globalExportsName: "SP"
+            });
+          }
+        )
+        .then(
+          (): Promise<{}> => {
+            return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.taxonomy.js", {
+              globalExportsName: "SP"
+            });
+          }
+        )
+        .then(
+          (): void => {
+            this.setState({ loadingScripts: false });
+          }
+        )
         .catch((reason: any) => {
           this.setState({ loadingScripts: false, errors: [...this.state.errors, reason] });
         });

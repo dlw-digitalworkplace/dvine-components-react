@@ -2,6 +2,7 @@ import { ITerm } from "../../model/ITerm";
 import { ITermData } from "./TaxonomyApi.types";
 
 export interface ITaxonomyApiContext {
+  absoluteSiteUrl: string;
   termSetId: string;
 }
 
@@ -10,7 +11,11 @@ export class TaxonomyApi {
     [x: string]: ITerm[];
   } = {};
 
-  constructor(private context: ITaxonomyApiContext) {}
+  private spContext: SP.ClientContext;
+
+  constructor(private context: ITaxonomyApiContext) {
+    this.spContext = new SP.ClientContext(context.absoluteSiteUrl);
+  }
 
   public async getTerms(noCache: boolean = false): Promise<ITerm[]> {
     const cachedData = TaxonomyApi.CACHEDATA[this.context.termSetId];
@@ -59,13 +64,12 @@ export class TaxonomyApi {
   }
 
   public async getTermTree(): Promise<{ termSetName: string; terms: ITerm[] }> {
-    const context = SP.ClientContext.get_current();
-    const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(context);
+    const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
 
-    context.load(termSet);
-    await this.awaitableExecuteQuery(context);
+    this.spContext.load(termSet);
+    await this.awaitableExecuteQuery(this.spContext);
 
     const terms = await this.getTerms();
     const termData: ITermData[] = terms.map(term => ({
@@ -96,17 +100,16 @@ export class TaxonomyApi {
   }
 
   private async _getTermsInteral(): Promise<ITerm[]> {
-    const context = SP.ClientContext.get_current();
-    const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(context);
+    const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
 
     const matchingTerms = termSet.getAllTerms();
 
-    context.load(termSet);
-    context.load(matchingTerms);
-    context.load(matchingTerms, "Include(Parent, Parent.Id)");
-    await this.awaitableExecuteQuery(context);
+    this.spContext.load(termSet);
+    this.spContext.load(matchingTerms);
+    this.spContext.load(matchingTerms, "Include(Parent, Parent.Id)");
+    await this.awaitableExecuteQuery(this.spContext);
 
     const terms: ITerm[] = [];
     const termEnumerator = matchingTerms.getEnumerator();
@@ -157,11 +160,11 @@ export class TaxonomyApi {
     // First map the nodes of the array to an object -> create a hash table.
     for (let i = 0, len = arr.length; i < len; i++) {
       arrElem = arr[i];
-      mappedArr[arrElem.id] = arrElem;
-      if (!mappedArr[arrElem.id].properties) {
-        mappedArr[arrElem.id].properties = {};
+      mappedArr[arrElem.id!] = arrElem;
+      if (!mappedArr[arrElem.id!].properties) {
+        mappedArr[arrElem.id!].properties = {};
       }
-      mappedArr[arrElem.id].properties.children = [];
+      mappedArr[arrElem.id!].properties.children = [];
     }
 
     for (const id in mappedArr) {

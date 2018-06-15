@@ -76,7 +76,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   }
 
   public render(): JSX.Element {
-    const { label, required, disabled, isLoading, iconProps, ...rest } = this.props;
+    const { label, required, disabled, isLoading, iconProps, allowAddTerms, ...rest } = this.props;
     const shouldBeDisabled = disabled || isLoading;
 
     return (
@@ -93,6 +93,13 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
             selectedItems={this.state.items}
             defaultSelectedItems={undefined}
             onValidateInput={this._onValidateInput}
+            pickerSuggestionsProps={{
+              noResultsFoundText: allowAddTerms
+                ? "No results found, press Enter to create it"
+                : "No results found",
+              suggestionsHeaderText: "Suggested Terms",
+              loadingText: "Loading..."
+            }}
           />
 
           <IconButton
@@ -157,11 +164,35 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
   @autobind
   private _onValidateInput(input: string): ValidationState {
-    return this.state.items.some(
-      item => !!item.properties!.isNew && item.name.toLowerCase() === input.toLowerCase()
-    )
-      ? ValidationState.invalid
-      : ValidationState.valid;
+    if (!input || this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase())) {
+      return ValidationState.invalid;
+    }
+
+    // tslint:disable-next-line:no-this-assignment
+    const that = this;
+    // tslint:disable-next-line:no-function-expression
+    this._makeMeLookSync(function*() {
+      try {
+        const result = yield that._createTerm(input);
+        console.log("Result", result);
+        const items = that.state.items;
+
+        const termIndex = items.findIndex(
+          (item: ITerm) => !!item.properties!.isNew && item.name === input
+        );
+
+        items[termIndex].id = result.id;
+        that.setState({
+          items: items
+        });
+
+        return ValidationState.valid;
+      } catch (err) {
+        return ValidationState.invalid;
+      }
+    });
+
+    return ValidationState.valid;
   }
 
   @autobind
@@ -176,5 +207,27 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     this.setState({
       isPopupOpen: false
     });
+  }
+
+  private async _createTerm(input: string): Promise<ITerm> {
+    const apiContext: ITaxonomyApiContext = {
+      absoluteSiteUrl: this.props.absoluteSiteUrl,
+      termSetId: this.props.termSetId
+    };
+
+    const taxonomyApi = new TaxonomyApi(apiContext);
+    const newTerm = await taxonomyApi.createTerm(input);
+
+    return newTerm;
+  }
+
+  private _makeMeLookSync(fn: any) {
+    const iterator = fn();
+    const loop = result => {
+      !result.done &&
+        result.value.then(res => loop(iterator.next(res)), err => loop(iterator.throw(err)));
+    };
+
+    loop(iterator.next());
   }
 }

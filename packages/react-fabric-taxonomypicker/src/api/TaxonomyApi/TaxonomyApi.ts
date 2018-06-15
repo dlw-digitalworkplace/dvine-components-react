@@ -1,3 +1,5 @@
+import * as Guid from "uuid/v4";
+
 import { ITerm } from "../../model/ITerm";
 import { ITermData } from "./TaxonomyApi.types";
 
@@ -87,6 +89,38 @@ export class TaxonomyApi {
       termSetName: termSet.get_name(),
       terms: flatData.map(item => this._termDataToTerm(item))
     };
+  }
+
+  public async createTerm(name: string, lcid: number = 1033): Promise<ITerm> {
+    const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
+    const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
+    const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
+
+    this.spContext.load(termSet);
+    await this.awaitableExecuteQuery(this.spContext);
+
+    // Create the term
+    const newTerm = termSet.createTerm(name, lcid, Guid());
+    this.spContext.load(newTerm);
+    await this.awaitableExecuteQuery(this.spContext);
+
+    const newTermInfo: ITerm = {
+      id: newTerm.get_id().toString(),
+      name: newTerm.get_name(),
+      path: newTerm.get_pathOfTerm(),
+      properties: {
+        isSelectable: true
+      }
+    };
+
+    // Update the cache
+    const cacheData = TaxonomyApi.CACHEDATA[this.context.termSetId];
+    if (cacheData) {
+      cacheData.push(newTermInfo);
+    }
+    TaxonomyApi.CACHEDATA[this.context.termSetId] = cacheData;
+
+    return newTermInfo;
   }
 
   protected awaitableExecuteQuery(context: SP.ClientContext): Promise<void> {

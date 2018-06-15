@@ -24,7 +24,10 @@ export class TermPicker extends BasePicker<ITerm, ITermPickerProps> {
         name: input,
         path: input,
         properties: {
-          isNew: true
+          isNew: true,
+          eTag: Math.random()
+            .toString(36)
+            .substr(2, 8)
         }
       } as any;
     },

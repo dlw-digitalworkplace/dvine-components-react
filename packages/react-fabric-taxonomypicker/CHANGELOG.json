@@ -2,6 +2,20 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.2.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.2.0",
+      "date": "Fri, 15 Jun 2018 11:24:11 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Nick Sevens <nick_sevens@hotmail.com>",
+            "commit": "d8f5d7212c2c98eb8f5d9ccd72199929218e111e",
+            "comment": "Added insertion into open term sets"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.1.0",
       "date": "Wed, 13 Jun 2018 13:53:24 GMT",

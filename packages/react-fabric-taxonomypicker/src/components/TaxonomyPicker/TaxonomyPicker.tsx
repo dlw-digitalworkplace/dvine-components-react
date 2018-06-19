@@ -164,7 +164,11 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
   @autobind
   private _onValidateInput(input: string): ValidationState {
-    if (!input || this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase())) {
+    if (
+      !this.props.allowAddTerms ||
+      !input ||
+      this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase())
+    ) {
       return ValidationState.invalid;
     }
 

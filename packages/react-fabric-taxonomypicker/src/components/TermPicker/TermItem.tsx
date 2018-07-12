@@ -1,6 +1,6 @@
 import { css } from "@uifabric/utilities/lib/css";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { IPickerItemProps } from "office-ui-fabric-react/lib/pickers";
+import { IPickerItemProps } from "office-ui-fabric-react/lib/Pickers";
 import { IDictionary } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
 

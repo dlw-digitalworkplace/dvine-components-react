@@ -5,7 +5,7 @@ import {
   CompactPeoplePicker,
   IBasePickerSuggestionsProps,
   NormalPeoplePicker
-} from "office-ui-fabric-react/lib/pickers";
+} from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 
 import { PeoplePickerApi } from "../api/PeoplePickerApi";

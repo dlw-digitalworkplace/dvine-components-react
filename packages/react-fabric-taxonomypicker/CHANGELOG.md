@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Fri, 15 Jun 2018 11:24:11 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Jul 2018 12:27:47 GMT and should not be manually modified.
+
+## 1.2.1
+Thu, 12 Jul 2018 12:27:47 GMT
+
+### Patches
+
+- Treeview css fix, reference casing fix
 
 ## 1.2.0
 Fri, 15 Jun 2018 11:24:11 GMT

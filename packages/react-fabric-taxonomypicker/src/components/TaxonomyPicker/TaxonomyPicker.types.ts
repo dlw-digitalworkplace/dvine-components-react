@@ -1,6 +1,6 @@
 import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
 import { IIconProps } from "office-ui-fabric-react/lib/Icon";
-import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/pickers";
+import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
 
 import { ITerm } from "../../model/ITerm";
 

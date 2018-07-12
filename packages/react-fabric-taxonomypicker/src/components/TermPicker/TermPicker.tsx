@@ -3,7 +3,7 @@ import {
   IBasePickerProps,
   IPickerItemProps,
   ValidationState
-} from "office-ui-fabric-react/lib/pickers";
+} from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 
 import { ITerm } from "../../model/ITerm";

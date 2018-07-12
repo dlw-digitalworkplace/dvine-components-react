@@ -4,7 +4,7 @@ import { createRef } from "@uifabric/utilities/lib/createRef";
 import { css } from "@uifabric/utilities/lib/css";
 import { IconButton } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
-import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/pickers";
+import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";

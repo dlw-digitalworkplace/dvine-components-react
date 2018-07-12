@@ -48,7 +48,6 @@
     "export-name": false,
     "trailing-comma": [false],
     "whitespace": [false],
-    "no-switch-case-fall-through": false,
     "variable-name": [
       true,
       "check-format",

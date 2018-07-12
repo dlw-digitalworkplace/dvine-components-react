@@ -1,6 +1,6 @@
 {
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@microsoft/office-ui-fabric-react-bundle": "^1.4.1",
+    "@microsoft/office-ui-fabric-react-bundle": "~1.4.1",
     "tslib": "^1.9.0"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "uuid": "^3.2.1"
   },
   "peerDependencies": {
-    "react": "^0.14.9 || ^15.0.1-0 || ^16.0.0-0",
-    "react-dom": "^0.14.9 || ^15.0.1-0 || ^16.0.0-0"
+    "react": "^15.0.1-0 || ^16.0.0-0",
+    "react-dom": "^15.0.1-0 || ^16.0.0-0"
   }
 }

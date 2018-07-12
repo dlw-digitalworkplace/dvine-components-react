@@ -1,6 +1,5 @@
 import { assign } from "@microsoft/sp-lodash-subset";
 import { PrincipalInfo, PrincipalSource, PrincipalType, SiteUserProps, sp } from "@pnp/sp";
-import { SPBatch } from "@pnp/sp/src/batch";
 
 import { ISiteUserInfo } from "../model/ISiteUserInfo";
 import { UserInfo } from "../model/SharePointUserPersona";
@@ -23,7 +22,7 @@ export class PeoplePickerApi implements IPeoplePickerApi {
     let principalInfo: PrincipalInfo;
     let ensuredUser: SiteUserProps;
 
-    const batch: SPBatch = sp.createBatch();
+    const batch = sp.createBatch();
     sp.utility
       .inBatch(batch)
       .resolvePrincipal(userInfo.EMail, principalType, 15, true, true)
@@ -59,7 +58,7 @@ export class PeoplePickerApi implements IPeoplePickerApi {
       numberOfItems
     );
 
-    const batch: SPBatch = sp.createBatch();
+    const batch = sp.createBatch();
 
     const combinedResults: (PrincipalInfo & SiteUserProps)[] = [];
 

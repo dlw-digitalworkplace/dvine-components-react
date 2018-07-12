@@ -1,5 +1,5 @@
 import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
-import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/pickers";
+import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
 
 import { ITerm } from "../../model/ITerm";
 import { ITreeViewItem } from "../TreeView";

@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Thu, 12 Jul 2018 12:27:47 GMT and should not be manually modified.
+This log was last generated on Tue, 17 Jul 2018 11:43:59 GMT and should not be manually modified.
+
+## 1.3.0
+Tue, 17 Jul 2018 11:43:59 GMT
+
+### Minor changes
+
+- Added searching in term labels
 
 ## 1.2.1
 Thu, 12 Jul 2018 12:27:47 GMT

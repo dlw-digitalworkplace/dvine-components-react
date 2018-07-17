@@ -3,6 +3,7 @@ export interface ITerm {
   name: string;
   path: string;
   properties?: ITermProperties;
+  labels?: string[];
 }
 
 export interface ITermProperties {

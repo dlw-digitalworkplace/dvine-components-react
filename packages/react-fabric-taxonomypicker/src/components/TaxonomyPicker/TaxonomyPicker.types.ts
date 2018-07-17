@@ -18,4 +18,6 @@ export interface ITaxonomyPickerProps extends IBaseProps {
   pickerSuggestionsProps?: IBasePickerSuggestionsProps;
   iconProps?: IIconProps;
   allowAddTerms?: boolean;
+  defaultLabelOnly?: boolean;
+  exactMatchOnly?: boolean;
 }

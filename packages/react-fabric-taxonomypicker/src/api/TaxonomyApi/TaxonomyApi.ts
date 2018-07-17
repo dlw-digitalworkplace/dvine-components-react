@@ -49,10 +49,19 @@ export class TaxonomyApi {
     let matchingTerms: ITerm[] = allTerms.filter(term => {
       let isMatch = true;
       if (exactMatch) {
-        isMatch = isMatch && term.name === filter;
+        isMatch =
+          isMatch &&
+          (term.name === filter ||
+            (!defaultLabelOnly && !!term.labels && term.labels.some(l => l === filter)));
       } else {
-        isMatch = isMatch && new RegExp(filter, "i").test(term.name);
+        const filterRegexp = new RegExp(filter, "i");
+
+        isMatch =
+          isMatch &&
+          (filterRegexp.test(term.name) ||
+            (!defaultLabelOnly && !!term.labels && term.labels.some(l => filterRegexp.test(l))));
       }
+
       isMatch = isMatch && (!trimUnavailable || !!term.properties!.isSelectable);
 
       return isMatch;
@@ -142,7 +151,7 @@ export class TaxonomyApi {
 
     this.spContext.load(termSet);
     this.spContext.load(matchingTerms);
-    this.spContext.load(matchingTerms, "Include(Parent, Parent.Id)");
+    this.spContext.load(matchingTerms, "Include(Labels, Parent, Parent.Id)");
     await this.awaitableExecuteQuery(this.spContext);
 
     const terms: ITerm[] = [];
@@ -159,9 +168,18 @@ export class TaxonomyApi {
           .toString();
       }
 
+      const termLabels = currentTerm.get_labels();
+      const labels: string[] = [];
+      const labelsEnumerator = termLabels.getEnumerator();
+      while (labelsEnumerator.moveNext()) {
+        const label = labelsEnumerator.get_current();
+        labels.push(label.get_value());
+      }
+
       terms.push({
         id: currentTerm.get_id().toString(),
         name: currentTerm.get_name(),
+        labels: labels,
         path: currentTerm.get_pathOfTerm(),
         properties: {
           isSelectable: currentTerm.get_isAvailableForTagging() && !currentTerm.get_isDeprecated(),

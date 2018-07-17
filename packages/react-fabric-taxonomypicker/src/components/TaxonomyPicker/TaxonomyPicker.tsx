@@ -119,6 +119,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               onDismiss={this._closeDialog}
               onSave={this._onSelectedItemsChanged}
               itemLimit={this.props.itemLimit}
+              defaultLabelOnly={this.props.defaultLabelOnly}
+              exactMatchOnly={this.props.exactMatchOnly}
             />
           )}
         </div>
@@ -134,7 +136,13 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
-    const matchingTerms = await taxonomyApi.findTerms(filter, true, false, 10, true);
+    const matchingTerms = await taxonomyApi.findTerms(
+      filter,
+      this.props.defaultLabelOnly,
+      this.props.exactMatchOnly,
+      10,
+      true
+    );
 
     return matchingTerms.filter(
       item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)

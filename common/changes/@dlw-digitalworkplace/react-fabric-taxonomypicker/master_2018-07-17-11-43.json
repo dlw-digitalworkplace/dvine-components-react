@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "comment": "Added searching in term labels",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+  "email": "nick_sevens@hotmail.com"
+}

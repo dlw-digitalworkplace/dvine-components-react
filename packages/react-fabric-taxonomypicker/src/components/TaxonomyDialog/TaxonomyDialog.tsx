@@ -94,12 +94,17 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
     const taxonomyApi = new TaxonomyApi(apiContext);
     const termTree = await taxonomyApi.getTermTree();
+    const rootTreeTerm = termTree.terms.find(t => !!t.id && t.id === this.props.rootTermId);
+
+    const children = rootTreeTerm && rootTreeTerm.properties && rootTreeTerm.properties.children
+      ? rootTreeTerm.properties.children.map(this._termToTreeViewItem)
+      : termTree.terms.map(this._termToTreeViewItem);
 
     this.setState({
       treeViewData: {
         id: this.props.termSetId,
         label: termTree.termSetName,
-        children: termTree.terms.map(this._termToTreeViewItem),
+        children,
         value: null,
         isSelectable: false
       }

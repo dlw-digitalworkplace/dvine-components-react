@@ -7,7 +7,6 @@
       "@dlw-digitalworkplace/dvine-components-tslint"
     ],
     "spfx-demo-app": [
-      "@dlw-digitalworkplace/react-fabric-peoplepicker",
       "@dlw-digitalworkplace/react-fabric-taxonomypicker"
     ]
   }

@@ -7,6 +7,7 @@ import { ITreeViewItem } from "../TreeView";
 export interface ITaxonomyDialogProps extends IBaseProps {
   absoluteSiteUrl: string;
   termSetId: string;
+  rootTermId?: string;
   defaultSelectedItems?: ITerm[];
   pickerSuggestionsProps?: IBasePickerSuggestionsProps;
   itemLimit?: number;

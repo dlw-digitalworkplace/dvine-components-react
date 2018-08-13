@@ -115,6 +115,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               absoluteSiteUrl={this.props.absoluteSiteUrl}
               defaultSelectedItems={this.state.items}
               termSetId={this.props.termSetId}
+              rootTermId={this.props.rootTermId}
               isOpen={this.state.isPopupOpen}
               onDismiss={this._closeDialog}
               onSave={this._onSelectedItemsChanged}
@@ -183,7 +184,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     // tslint:disable-next-line:no-function-expression
-    this._makeMeLookSync(function*() {
+    this._makeMeLookSync(function* () {
       try {
         const result = yield that._createTerm(input);
         console.log("Result", result);

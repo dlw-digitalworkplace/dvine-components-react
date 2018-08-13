@@ -16,6 +16,7 @@
     "postinstall": "npm run _rushInstall",
     "test": "npm run _rushBuild",
     "start": "cd apps && cd spfx-demo-app && gulp serve",
+    "start:nb": "cd apps && cd spfx-demo-app && gulp serve --nobrowser",
     "build": "npm run _rushRebuild",
     "buildfast": "npm run _rushBuild",
     "change": "node node_modules/@microsoft/rush/bin/rush change",

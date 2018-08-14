@@ -110,3 +110,6 @@ gulp-cache
 npm-debug.log.*
 
 package-lock.json
+
+# Ignore Rush temporary files
+/common/temp/** 

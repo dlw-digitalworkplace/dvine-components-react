@@ -89,7 +89,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   private async _loadTermSetData(): Promise<void> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
@@ -140,7 +141,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);

@@ -133,7 +133,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
@@ -225,7 +226,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   private async _createTerm(input: string): Promise<ITerm> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);

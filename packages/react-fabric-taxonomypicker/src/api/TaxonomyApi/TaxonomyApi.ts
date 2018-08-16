@@ -103,7 +103,7 @@ export class TaxonomyApi {
     };
   }
 
-  public async createTerm(name: string, lcid: number = 1033): Promise<ITerm> {
+  public async createTerm(name: string, newTermId: Guid, lcid: number = 1033): Promise<ITerm> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -118,7 +118,7 @@ export class TaxonomyApi {
     }
 
     // Create the term
-    const newTerm = !!term ? term.createTerm(name, lcid, Guid()) : termSet.createTerm(name, lcid, Guid());
+    const newTerm = !!term ? term.createTerm(name, lcid, newTermId) : termSet.createTerm(name, lcid, newTermId);
     this.spContext.load(newTerm);
     await this.awaitableExecuteQuery(this.spContext);
 

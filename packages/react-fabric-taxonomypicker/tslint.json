@@ -1,9 +1,17 @@
 {
-  "extends": ["@dlw-digitalworkplace/dvine-components-tslint"],
+  "extends": [
+    "@dlw-digitalworkplace/dvine-components-tslint"
+  ],
   "rules": {
     "jsx-ban-props": false,
-    "max-line-length": [false, 100],
+    "max-line-length": [
+      false,
+      100
+    ],
     "no-any": false,
-    "typedef": [false]
+    "typedef": [
+      false
+    ],
+    "no-debugger": false
   }
 }

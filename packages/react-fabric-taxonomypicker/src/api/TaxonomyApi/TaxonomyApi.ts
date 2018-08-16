@@ -127,7 +127,8 @@ export class TaxonomyApi {
       name: newTerm.get_name(),
       path: newTerm.get_pathOfTerm(),
       properties: {
-        isSelectable: true
+        isSelectable: true,
+        parentId: !!term ? this.context.rootTermId : undefined
       }
     };
 

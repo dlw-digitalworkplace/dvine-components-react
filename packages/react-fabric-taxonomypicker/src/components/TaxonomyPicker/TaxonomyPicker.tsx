@@ -22,6 +22,11 @@ export interface ITaxonomyPickerState {
   isPopupOpen: boolean;
 }
 
+interface IRequestedTerm {
+  id: Guid;
+  label: string;
+}
+
 export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonomyPickerState>
   implements IBasePicker<ITerm> {
   protected static defaultProps: Partial<ITaxonomyPickerProps> = {
@@ -36,7 +41,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   };
 
   private termPicker = createRef<TermPicker>();
-  private requestedTerms: any[] = [];
+  private requestedTerms: IRequestedTerm[] = [];
 
   constructor(props: ITaxonomyPickerProps) {
     super(props);

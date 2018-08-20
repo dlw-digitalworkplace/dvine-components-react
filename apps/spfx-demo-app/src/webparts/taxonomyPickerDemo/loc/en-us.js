@@ -1,8 +1,9 @@
-define([], function() {
+define([], function () {
   return {
     PropertyPaneDescription: "Configure the taxonomypicker demo",
     BasicGroupName: "Basic configuration",
-    TermSetIdFieldLabel: "Term Set Id",
+    TermSetIdFieldLabel: "Term Set ID",
+    RootTermIdFieldLabel: "Root Term ID",
     ItemLimitFieldLabel: "Item Limit"
   };
 });

@@ -6,6 +6,7 @@ import { IconButton } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
+import * as Guid from "uuid/v4";
 
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
@@ -19,6 +20,11 @@ const styles = require("./TaxonomyPicker.module.scss");
 export interface ITaxonomyPickerState {
   items: ITerm[];
   isPopupOpen: boolean;
+}
+
+interface IRequestedTerm {
+  id: Guid;
+  label: string;
 }
 
 export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonomyPickerState>
@@ -35,6 +41,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   };
 
   private termPicker = createRef<TermPicker>();
+  private requestedTerms: IRequestedTerm[] = [];
 
   constructor(props: ITaxonomyPickerProps) {
     super(props);
@@ -93,6 +100,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
             selectedItems={this.state.items}
             defaultSelectedItems={undefined}
             onValidateInput={this._onValidateInput}
+            createGenericItem={this._createGenericItem}
             pickerSuggestionsProps={{
               noResultsFoundText: allowAddTerms
                 ? "No results found, press Enter to create it"
@@ -115,6 +123,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               absoluteSiteUrl={this.props.absoluteSiteUrl}
               defaultSelectedItems={this.state.items}
               termSetId={this.props.termSetId}
+              rootTermId={this.props.rootTermId}
               isOpen={this.state.isPopupOpen}
               onDismiss={this._closeDialog}
               onSave={this._onSelectedItemsChanged}
@@ -132,7 +141,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
@@ -170,6 +180,42 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     }
   }
 
+  private _getRequestedTerm(input: string) {
+    const requestedTerms = this.requestedTerms.filter((rt) => { return rt.label === input; });
+    const requestedTerm = requestedTerms.length > 0 ? requestedTerms[0] : null;
+    return requestedTerm;
+  }
+
+  private _removeRequestedTerm(input: string) {
+    const requestedTerm = this._getRequestedTerm(input);
+
+    if (!requestedTerm) {
+      return;
+    }
+
+    const termIndex = this.requestedTerms.indexOf(requestedTerm);
+    this.requestedTerms.splice(termIndex, 1);
+  }
+
+  @autobind
+  private _createGenericItem(input: string) {
+    const requestedTerm = this._getRequestedTerm(input);
+
+    const genericItem = {
+      id: requestedTerm ? requestedTerm.id : undefined,
+      name: input,
+      path: input,
+      properties: {
+        isNew: true,
+        eTag: Math.random()
+          .toString(36)
+          .substr(2, 8)
+      }
+    } as any;
+
+    return genericItem;
+  }
+
   @autobind
   private _onValidateInput(input: string): ValidationState {
     if (
@@ -183,10 +229,13 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     // tslint:disable-next-line:no-this-assignment
     const that = this;
     // tslint:disable-next-line:no-function-expression
-    this._makeMeLookSync(function*() {
+    this._makeMeLookSync(function* () {
       try {
         const result = yield that._createTerm(input);
+
         console.log("Result", result);
+        that._removeRequestedTerm(input);
+
         const items = that.state.items;
 
         const termIndex = items.findIndex(
@@ -224,11 +273,23 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   private async _createTerm(input: string): Promise<ITerm> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
+    // Due to the generator function, the create term function can be called multiple times, make sure to always use the same term id
+    let generatedTermId;
+    const requestedTerm = this._getRequestedTerm(input);
+
+    if (requestedTerm) {
+      generatedTermId = requestedTerm.id;
+    } else {
+      generatedTermId = Guid();
+      this.requestedTerms.push({ id: generatedTermId, label: input });
+    }
+
     const taxonomyApi = new TaxonomyApi(apiContext);
-    const newTerm = await taxonomyApi.createTerm(input);
+    const newTerm = await taxonomyApi.createTerm(input, generatedTermId);
 
     return newTerm;
   }

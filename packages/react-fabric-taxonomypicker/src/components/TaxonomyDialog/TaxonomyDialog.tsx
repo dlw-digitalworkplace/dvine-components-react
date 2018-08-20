@@ -89,17 +89,24 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   private async _loadTermSetData(): Promise<void> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
     const termTree = await taxonomyApi.getTermTree();
+    const rootTreeTerms = termTree.terms.filter(t => !!t.id && t.id === this.props.rootTermId);
+    const rootTreeTerm = rootTreeTerms.length > 0 ? rootTreeTerms[0] : null;
+
+    const children = rootTreeTerm && rootTreeTerm.properties && rootTreeTerm.properties.children
+      ? rootTreeTerm.properties.children.map(this._termToTreeViewItem)
+      : termTree.terms.map(this._termToTreeViewItem);
 
     this.setState({
       treeViewData: {
         id: this.props.termSetId,
         label: termTree.termSetName,
-        children: termTree.terms.map(this._termToTreeViewItem),
+        children,
         value: null,
         isSelectable: false
       }
@@ -135,7 +142,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   private async _resolveSuggestions(filter: string, selectedItems?: ITerm[]): Promise<ITerm[]> {
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
-      termSetId: this.props.termSetId
+      termSetId: this.props.termSetId,
+      rootTermId: this.props.rootTermId
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);

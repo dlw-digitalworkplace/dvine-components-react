@@ -6,6 +6,7 @@ import { ITermData } from "./TaxonomyApi.types";
 export interface ITaxonomyApiContext {
   absoluteSiteUrl: string;
   termSetId: string;
+  rootTermId?: string;
 }
 
 export class TaxonomyApi {
@@ -14,13 +15,15 @@ export class TaxonomyApi {
   } = {};
 
   private spContext: SP.ClientContext;
+  private cacheKey: string;
 
   constructor(private context: ITaxonomyApiContext) {
     this.spContext = new SP.ClientContext(context.absoluteSiteUrl);
+    this.cacheKey = this._getCacheKey();
   }
 
   public async getTerms(noCache: boolean = false): Promise<ITerm[]> {
-    const cachedData = TaxonomyApi.CACHEDATA[this.context.termSetId];
+    const cachedData = TaxonomyApi.CACHEDATA[this.cacheKey];
 
     if (cachedData) {
       return cachedData;
@@ -29,7 +32,7 @@ export class TaxonomyApi {
     const termData = await this._getTermsInteral();
 
     // write data to cache
-    TaxonomyApi.CACHEDATA[this.context.termSetId] = termData;
+    TaxonomyApi.CACHEDATA[this.cacheKey] = termData;
 
     return termData;
   }
@@ -100,7 +103,7 @@ export class TaxonomyApi {
     };
   }
 
-  public async createTerm(name: string, lcid: number = 1033): Promise<ITerm> {
+  public async createTerm(name: string, newTermId: Guid, lcid: number = 1033): Promise<ITerm> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -108,8 +111,14 @@ export class TaxonomyApi {
     this.spContext.load(termSet);
     await this.awaitableExecuteQuery(this.spContext);
 
+    let term: SP.Taxonomy.Term | null = null;
+
+    if (this.context.rootTermId) {
+      term = await termSet.getTerm(new SP.Guid(this.context.rootTermId));
+    }
+
     // Create the term
-    const newTerm = termSet.createTerm(name, lcid, Guid());
+    const newTerm = !!term ? term.createTerm(name, lcid, newTermId) : termSet.createTerm(name, lcid, newTermId);
     this.spContext.load(newTerm);
     await this.awaitableExecuteQuery(this.spContext);
 
@@ -118,16 +127,18 @@ export class TaxonomyApi {
       name: newTerm.get_name(),
       path: newTerm.get_pathOfTerm(),
       properties: {
-        isSelectable: true
+        isSelectable: true,
+        parentId: !!term ? this.context.rootTermId : undefined
       }
     };
 
     // Update the cache
-    const cacheData = TaxonomyApi.CACHEDATA[this.context.termSetId];
+    const cacheData = TaxonomyApi.CACHEDATA[this.cacheKey];
     if (cacheData) {
       cacheData.push(newTermInfo);
     }
-    TaxonomyApi.CACHEDATA[this.context.termSetId] = cacheData;
+
+    TaxonomyApi.CACHEDATA[this.cacheKey] = cacheData;
 
     return newTermInfo;
   }
@@ -147,6 +158,13 @@ export class TaxonomyApi {
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
 
+    let rootTerm: SP.Taxonomy.Term | null = null;
+
+    if (!!this.context.rootTermId) {
+      rootTerm = await termStore.getTermInTermSet(new SP.Guid(this.context.termSetId), new SP.Guid(this.context.rootTermId));
+      this.spContext.load(rootTerm);
+    }
+
     const matchingTerms = termSet.getAllTerms();
 
     this.spContext.load(termSet);
@@ -156,9 +174,15 @@ export class TaxonomyApi {
 
     const terms: ITerm[] = [];
     const termEnumerator = matchingTerms.getEnumerator();
+    const rootTermPath = !!rootTerm ? rootTerm.get_pathOfTerm() : null;
 
     while (termEnumerator.moveNext()) {
       const currentTerm = termEnumerator.get_current();
+
+      if (rootTermPath && currentTerm.get_pathOfTerm().indexOf(rootTermPath) !== 0) {
+        // If there is a root term filled, check if the current term is under it otherwise skip it
+        continue;
+      }
 
       let parentId: string | null = null;
       if (!currentTerm.get_isRoot()) {
@@ -189,6 +213,12 @@ export class TaxonomyApi {
     }
 
     return terms;
+  }
+
+  private _getCacheKey(): string {
+    return !!this.context.rootTermId
+      ? `${this.context.termSetId}_${this.context.rootTermId}`
+      : this.context.termSetId;
   }
 
   private _termDataToTerm(termData: ITermData) {

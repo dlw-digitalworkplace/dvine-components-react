@@ -13,18 +13,20 @@ import TaxonomyPickerDemo from "./components/TaxonomyPickerDemo";
 
 export interface ITaxonomyPickerDemoWebPartProps {
   termSetId: string;
+  rootTermId: string;
   itemLimit: number;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
   ITaxonomyPickerDemoWebPartProps
-> {
+  > {
   public render(): void {
     const element: React.ReactElement<ITaxonomyPickerDemoProps> = React.createElement(
       TaxonomyPickerDemo,
       {
         absoluteSiteUrl: this.context.pageContext.site.serverRelativeUrl,
         termSetId: this.properties.termSetId,
+        rootTermId: this.properties.rootTermId,
         itemLimit: this.properties.itemLimit
       }
     );
@@ -49,6 +51,9 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
               groupFields: [
                 PropertyPaneTextField("termSetId", {
                   label: strings.TermSetIdFieldLabel
+                }),
+                PropertyPaneTextField("rootTermId", {
+                  label: strings.RootTermIdFieldLabel
                 }),
                 PropertyPaneTextField("itemLimit", {
                   label: strings.ItemLimitFieldLabel

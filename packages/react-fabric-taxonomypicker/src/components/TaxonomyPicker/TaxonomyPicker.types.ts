@@ -11,6 +11,7 @@ export interface ITaxonomyPickerProps extends IBaseProps {
   disabled?: boolean;
   isLoading?: boolean;
   termSetId: string;
+  rootTermId?: string;
   itemLimit?: number;
   onChange?: (newValue?: ITerm[]) => void;
   selectedItems?: ITerm[];

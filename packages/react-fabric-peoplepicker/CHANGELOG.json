@@ -2,8 +2,20 @@
   "name": "@dlw-digitalworkplace/react-fabric-peoplepicker",
   "entries": [
     {
+      "version": "1.0.3",
+      "tag": "@dlw-digitalworkplace/react-fabric-peoplepicker_v1.0.3",
+      "date": "Mon, 20 Aug 2018 11:14:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Versioning fix"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
-      "tag": "@dlw-digitalworkplace/react-fabric-peoplepicker_v1.0.1",
+      "tag": "@dlw-digitalworkplace/react-fabric-peoplepicker_v1.0.2",
       "date": "Thu, 12 Jul 2018 12:27:47 GMT",
       "comments": {
         "patch": [

@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-peoplepicker
 
-This log was last generated on Mon, 20 Aug 2018 11:14:43 GMT and should not be manually modified.
+This log was last generated on Mon, 20 Aug 2018 11:38:32 GMT and should not be manually modified.
+
+## 1.0.4
+Mon, 20 Aug 2018 11:38:32 GMT
+
+### Patches
+
+- NPM package fix
 
 ## 1.0.3
 Mon, 20 Aug 2018 11:14:43 GMT

@@ -30,6 +30,3 @@ obj
 
 # Styles Generated Code
 *.scss.ts
-
-# Ignore Rush temporary files
-/common/temp/**

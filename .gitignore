@@ -101,7 +101,6 @@ package
 # Dependency change files generated from npmx aka rush
 package-deps.json
 common/temp/*
-!common/temp/rush-link.json
 
 # Gulp cache
 gulp-cache
@@ -110,6 +109,3 @@ gulp-cache
 npm-debug.log.*
 
 package-lock.json
-
-# Ignore Rush temporary files
-/common/temp/** 

@@ -77,7 +77,7 @@ export class TaxonomyApi {
     return matchingTerms;
   }
 
-  public async getTermTree(): Promise<{ termSetName: string; terms: ITerm[] }> {
+  public async getTermTree(): Promise<{ termSetName: string; isOpenTermSet: boolean; terms: ITerm[] }> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -86,6 +86,7 @@ export class TaxonomyApi {
     await this.awaitableExecuteQuery(this.spContext);
 
     const terms = await this.getTerms();
+    const isOpenTermSet = termSet.get_isOpenForTermCreation();
     const termData: ITermData[] = terms.map(term => ({
       id: term.id,
       name: term.name,
@@ -99,11 +100,17 @@ export class TaxonomyApi {
 
     return {
       termSetName: termSet.get_name(),
+      isOpenTermSet: isOpenTermSet,
       terms: flatData.map(item => this._termDataToTerm(item))
     };
   }
 
-  public async createTerm(name: string, newTermId: Guid, lcid: number = 1033): Promise<ITerm> {
+  public async createTerm(
+    name: string,
+    newTermId: Guid,
+    lcid: number = 1033,
+    parent?: ITerm | null
+  ): Promise<ITerm> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -112,13 +119,23 @@ export class TaxonomyApi {
     await this.awaitableExecuteQuery(this.spContext);
 
     let term: SP.Taxonomy.Term | null = null;
+    let parentTerm: SP.Taxonomy.Term | null = null;
 
     if (this.context.rootTermId) {
       term = await termSet.getTerm(new SP.Guid(this.context.rootTermId));
     }
 
+    if (parent && parent.id) {
+      parentTerm = await termSet.getTerm(new SP.Guid(parent.id));
+      this.spContext.load(parentTerm);
+    }
+
     // Create the term
-    const newTerm = !!term ? term.createTerm(name, lcid, newTermId) : termSet.createTerm(name, lcid, newTermId);
+    const newTerm = !parentTerm
+      ? !!term
+        ? term.createTerm(name, lcid, newTermId)
+        : termSet.createTerm(name, lcid, newTermId)
+      : parentTerm.createTerm(name, lcid, newTermId);
     this.spContext.load(newTerm);
     await this.awaitableExecuteQuery(this.spContext);
 
@@ -127,12 +144,14 @@ export class TaxonomyApi {
       name: newTerm.get_name(),
       path: newTerm.get_pathOfTerm(),
       properties: {
-        isSelectable: true,
-        parentId: !!term ? this.context.rootTermId : undefined
-      }
+          isSelectable: true,
+          parentId: !parentTerm
+            ? (!!term ? this.context.rootTermId : undefined)
+            : parentTerm.get_id().toString()
+        }
     };
 
-    // Update the cache
+    // Update the cache in the correct node
     const cacheData = TaxonomyApi.CACHEDATA[this.cacheKey];
     if (cacheData) {
       cacheData.push(newTermInfo);
@@ -161,7 +180,10 @@ export class TaxonomyApi {
     let rootTerm: SP.Taxonomy.Term | null = null;
 
     if (!!this.context.rootTermId) {
-      rootTerm = await termStore.getTermInTermSet(new SP.Guid(this.context.termSetId), new SP.Guid(this.context.rootTermId));
+      rootTerm = await termStore.getTermInTermSet(
+        new SP.Guid(this.context.termSetId),
+        new SP.Guid(this.context.rootTermId)
+      );
       this.spContext.load(rootTerm);
     }
 
@@ -179,8 +201,8 @@ export class TaxonomyApi {
     while (termEnumerator.moveNext()) {
       const currentTerm = termEnumerator.get_current();
 
+      // If there is a root term filled, check if the current term is under it otherwise skip it
       if (rootTermPath && currentTerm.get_pathOfTerm().indexOf(rootTermPath) !== 0) {
-        // If there is a root term filled, check if the current term is under it otherwise skip it
         continue;
       }
 

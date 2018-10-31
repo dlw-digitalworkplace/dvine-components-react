@@ -38,7 +38,7 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
   public render(): JSX.Element {
     const { item, selection, isRootNode, isOpenTermSet, invokeItem, itemAdding, onNewItemValueChanged, onNewItemFocusOut, newItemValue } = this.props;
     const { isCollapsed } = this.state;
-
+    const isItemAddingBelowSelectedNode: boolean | undefined = itemAdding && selection.isKeySelected(item.id);
     return (
       <div
         className={css(getClassName("TreeView-Node"), styles.node, {
@@ -58,7 +58,7 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
           onToggleCollapse={this._toggleCollapse}
         />
 
-        {itemAdding && selection.isKeySelected(item.id) && (
+        {isItemAddingBelowSelectedNode && (
           <TreeLabelNew
             label={newItemValue}
             onNewItemValueChanged={onNewItemValueChanged}

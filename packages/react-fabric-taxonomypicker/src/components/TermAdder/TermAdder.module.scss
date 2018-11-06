@@ -1,0 +1,25 @@
+.termAdder {
+    word-break: normal;
+    padding-bottom: 10px;
+    .termAdderIcon {
+        padding-right: 15px;
+    }
+    .termAdderDescription {
+        vertical-align: top;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 1px;
+    }
+    .termAdderLabel {
+        padding: 1px;
+        cursor: pointer;
+        vertical-align: top;
+        color: #0072c6;
+        text-decoration: none;
+        margin-left: 2px;
+        &:visited {
+            color: #663399;
+            text-decoration: none;
+        }
+    }
+}

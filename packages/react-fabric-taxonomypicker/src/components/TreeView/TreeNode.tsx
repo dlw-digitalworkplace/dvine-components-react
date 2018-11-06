@@ -6,14 +6,20 @@ import * as React from "react";
 import { getClassName } from "../../utilities";
 import { TreeLabel } from "./TreeLabel";
 import { ITreeViewItem } from "./TreeView.types";
+import { TreeLabelNew } from "./TreeLabelNew";
 
 const styles = require("./TreeView.module.scss");
 
 export interface ITreeNodeProps<T> {
   item: ITreeViewItem<T>;
   selection: ISelection;
+  isOpenTermSet: boolean;
+  isRootNode: boolean;
   defaultExpanded?: boolean;
-  isRootNode?: boolean;
+  itemAdding?: boolean;
+  newItemValue?: string;
+  onNewItemValueChanged?: (value: string) => void;
+  onNewItemFocusOut?: () => void;
   invokeItem?: (item: ITreeViewItem<T>) => void;
 }
 
@@ -30,9 +36,9 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
     };
   }
   public render(): JSX.Element {
-    const { item, selection, isRootNode, invokeItem } = this.props;
+    const { item, selection, isRootNode, isOpenTermSet, invokeItem, itemAdding, onNewItemValueChanged, onNewItemFocusOut, newItemValue } = this.props;
     const { isCollapsed } = this.state;
-
+    const isItemAddingBelowSelectedNode: boolean | undefined = itemAdding && selection.isKeySelected(item.id);
     return (
       <div
         className={css(getClassName("TreeView-Node"), styles.node, {
@@ -45,12 +51,20 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
           hasChildren={item.children && item.children.length > 0}
           isRootNode={isRootNode}
           isSelected={selection.isKeySelected(item.id)}
-          isSelectable={selection.canSelectItem({ ...item, key: item.id } as IObjectWithKey)}
+          isSelectable={(isRootNode && isOpenTermSet) || selection.canSelectItem({ ...item, key: item.id } as IObjectWithKey)}
           isExpanded={!isCollapsed}
           onClick={this._selectItem}
           onDoubleClick={this._invokeItem}
           onToggleCollapse={this._toggleCollapse}
         />
+
+        {isItemAddingBelowSelectedNode && (
+          <TreeLabelNew
+            label={newItemValue}
+            onNewItemValueChanged={onNewItemValueChanged}
+            onNewItemFocusOut={onNewItemFocusOut}
+          />
+        )}
 
         {!isCollapsed &&
           item.children &&
@@ -58,9 +72,15 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
             <TreeNode
               key={child.id}
               item={child}
+              isRootNode={false}
               selection={selection}
+              isOpenTermSet={isOpenTermSet}
               defaultExpanded={isRootNode && index === 0}
               invokeItem={invokeItem}
+              onNewItemValueChanged={onNewItemValueChanged}
+              onNewItemFocusOut={onNewItemFocusOut}
+              itemAdding={itemAdding}
+              newItemValue={newItemValue}
             />
           ))}
       </div>

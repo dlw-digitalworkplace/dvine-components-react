@@ -253,7 +253,11 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     this.state.selectedTreeItem ?
       await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), 1033, this.state.selectedTreeItem) :
       await taxonomyApi.createTerm(this.state.newItemLabel!, Guid());
-    this._loadTermSetData();
+    await this._loadTermSetData();
+
+    if (this.state.selectedTreeItem) {
+      this._onTreeSelectionChanged(this.state.selectedTreeItem);
+    }
   }
 
   @autobind

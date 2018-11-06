@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Mon, 20 Aug 2018 11:38:32 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Nov 2018 08:58:30 GMT and should not be manually modified.
+
+## 1.5.0
+Tue, 06 Nov 2018 08:58:30 GMT
+
+### Minor changes
+
+- Insert terms in the taxonomy dialog for an open term set
 
 ## 1.4.1
 Mon, 20 Aug 2018 11:38:32 GMT

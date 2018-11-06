@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.5.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.5.0",
+      "date": "Tue, 06 Nov 2018 08:58:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Insert terms in the taxonomy dialog for an open term set"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.1",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.4.1",
       "date": "Mon, 20 Aug 2018 11:38:32 GMT",

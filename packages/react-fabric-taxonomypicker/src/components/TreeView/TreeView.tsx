@@ -43,7 +43,7 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
   }
 
   public render(): JSX.Element {
-    const { data, isOpenTermSet, onItemInvoked, onNewItemValueChanged, onNewItemFocusOut, itemAdding } = this.props;
+    const { data, isOpenTermSet, onItemInvoked, onNewItemValueChanged, onNewItemFocusOut, onNewItemKeyPress, itemAdding } = this.props;
     const { selection } = this.state;
 
     return (
@@ -58,10 +58,12 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
             invokeItem={onItemInvoked}
             onNewItemValueChanged={onNewItemValueChanged}
             onNewItemFocusOut={onNewItemFocusOut}
+            onNewItemKeyPress={onNewItemKeyPress}
             itemAdding={itemAdding}
           />
         )}
-    </div>);
+      </div>
+    );
   }
 
   @autobind
@@ -86,9 +88,9 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
   private _setSelectableItems(data?: ITreeViewItem<T>): void {
     const flattenedData = data
       ? flatten([data]).map(item => ({
-          key: item.id,
-          ...item
-        }))
+        key: item.id,
+        ...item
+      }))
       : [];
 
     this.state.selection.setItems(flattenedData, false);

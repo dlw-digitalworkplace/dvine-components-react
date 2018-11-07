@@ -73,6 +73,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
             onSelectionChanged={this._onTreeSelectionChanged}
             itemAdding={this.state.itemAdding}
             onNewItemFocusOut={this._onNewItemFocusOut}
+            onNewItemKeyPress={this._onNewItemKeyPress}
             onNewItemValueChanged={this._onNewItemValueChanged}
           />
         </div>
@@ -234,15 +235,30 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   }
 
   @autobind
+  private async _onNewItemKeyPress(event): Promise<void> {
+    // ENTER
+    if (event.charCode === 13) {
+      return this._onNewItemFocusOut();
+    }
+
+    return Promise.resolve();
+  }
+
+  @autobind
   private async _onNewItemFocusOut(): Promise<void> {
-    // Check if not empty, otherwise cancel
+    // Check if empty -> cancel if so
     if (!this.state.newItemLabel) {
       this.setState({
         itemAdding: false
       });
       return Promise.resolve();
+    } else {
+      return this._createTerm();
     }
+  }
 
+  @autobind
+  private async _createTerm(): Promise<void> {
     // Add the new term to the taxonomy
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
@@ -258,6 +274,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     if (this.state.selectedTreeItem) {
       this._onTreeSelectionChanged(this.state.selectedTreeItem);
     }
+
+    return Promise.resolve();
   }
 
   @autobind

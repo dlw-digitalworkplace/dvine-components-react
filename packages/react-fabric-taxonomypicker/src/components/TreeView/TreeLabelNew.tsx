@@ -12,6 +12,7 @@ export interface ITreeLabelNewProps {
   label?: string;
   onNewItemValueChanged?: (value: string) => void;
   onNewItemFocusOut?: () => void;
+  onNewItemKeyPress?: (event) => void;
 }
 
 export class TreeLabelNew extends React.Component<ITreeLabelNewProps, any> {
@@ -31,6 +32,7 @@ export class TreeLabelNew extends React.Component<ITreeLabelNewProps, any> {
           autoFocus={true}
           value={this.props.label}
           onChanged={this._onNewItemValueChanged}
+          onKeyPress={this._onNewItemKeyPress}
           onBlur={this._onNewItemFocusOut}
           className={css(getClassName("TreeView-NodeLabel-Text"), styles.labelText)}
         />
@@ -39,12 +41,18 @@ export class TreeLabelNew extends React.Component<ITreeLabelNewProps, any> {
   }
 
   @autobind
+  private _onNewItemKeyPress(event: any): void {
+    if (event && this.props.onNewItemKeyPress) {
+      this.props.onNewItemKeyPress(event);
+    }
+  }
+
+  @autobind
   private _onNewItemValueChanged(newValue?: string): void {
     if (newValue && this.props.onNewItemValueChanged) {
       this.props.onNewItemValueChanged(newValue);
     }
   }
-
   @autobind
   private _onNewItemFocusOut(): void {
     if (this.props.onNewItemFocusOut) {

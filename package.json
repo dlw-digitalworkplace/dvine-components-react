@@ -29,5 +29,8 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/rush": "4.1.0"
+  },
+  "dependencies": {
+    "tslint": "^5.11.0"
   }
 }

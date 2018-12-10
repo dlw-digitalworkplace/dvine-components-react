@@ -10,9 +10,7 @@ export interface ITaxonomyApiContext {
 }
 
 export class TaxonomyApi {
-  private static CACHEDATA: {
-    [x: string]: ITerm[];
-  } = {};
+  private static CACHEDATA: { [x: string]: ITerm[] } = {};
 
   private spContext: SP.ClientContext;
   private cacheKey: string;
@@ -37,13 +35,7 @@ export class TaxonomyApi {
     return termData;
   }
 
-  public async findTerms(
-    filter: string,
-    defaultLabelOnly?: boolean,
-    exactMatch?: boolean,
-    resultSize: number = 10,
-    trimUnavailable?: boolean
-  ): Promise<ITerm[]> {
+  public async findTerms(filter: string, defaultLabelOnly?: boolean, exactMatch?: boolean, resultSize: number = 10, trimUnavailable?: boolean): Promise<ITerm[]> {
     if (!filter || filter.length === 0) {
       return [];
     }
@@ -52,17 +44,13 @@ export class TaxonomyApi {
     let matchingTerms: ITerm[] = allTerms.filter(term => {
       let isMatch = true;
       if (exactMatch) {
-        isMatch =
-          isMatch &&
-          (term.name === filter ||
-            (!defaultLabelOnly && !!term.labels && term.labels.some(l => l === filter)));
+        isMatch = isMatch && (term.name === filter || (!defaultLabelOnly && !!term.labels && term.labels.some(l => l === filter)));
       } else {
         const filterRegexp = new RegExp(filter, "i");
 
-        isMatch =
-          isMatch &&
-          (filterRegexp.test(term.name) ||
-            (!defaultLabelOnly && !!term.labels && term.labels.some(l => filterRegexp.test(l))));
+        isMatch = isMatch && (filterRegexp.test(term.name) || (!defaultLabelOnly && !!term.labels && term.labels.some(
+          l => filterRegexp.test(l)
+        )));
       }
 
       isMatch = isMatch && (!trimUnavailable || !!term.properties!.isSelectable);
@@ -93,24 +81,20 @@ export class TaxonomyApi {
       path: term.path,
       isSelectable: term.properties!.isSelectable || false,
       parentId: term.properties!.parentId || null,
+      sortOrder: term.sortOrder,
       children: []
     }));
 
     const flatData = this._unflatten(termData);
 
     return {
-      termSetName: termSet.get_name(),
-      isOpenTermSet: isOpenTermSet,
-      terms: flatData.map(item => this._termDataToTerm(item))
+      termSetName: termSet.get_name(), isOpenTermSet: isOpenTermSet, terms: flatData.map(
+        item => this._termDataToTerm(item)
+      )
     };
   }
 
-  public async createTerm(
-    name: string,
-    newTermId: Guid,
-    lcid: number = 1033,
-    parent?: ITerm | null
-  ): Promise<ITerm> {
+  public async createTerm(name: string, newTermId: Guid, lcid: number = 1033, parent?: ITerm | null): Promise<ITerm> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -131,23 +115,17 @@ export class TaxonomyApi {
     }
 
     // Create the term
-    const newTerm = !parentTerm
-      ? !!term
-        ? term.createTerm(name, lcid, newTermId)
-        : termSet.createTerm(name, lcid, newTermId)
-      : parentTerm.createTerm(name, lcid, newTermId);
+    const newTerm = !parentTerm ? (!!term ? term.createTerm(name, lcid, newTermId) : termSet.createTerm(name, lcid, newTermId)) : parentTerm.createTerm(name, lcid, newTermId);
     this.spContext.load(newTerm);
     await this.awaitableExecuteQuery(this.spContext);
 
     const newTermInfo: ITerm = {
-      id: newTerm.get_id().toString(),
-      name: newTerm.get_name(),
-      path: newTerm.get_pathOfTerm(),
-      properties: {
-          isSelectable: true,
-          parentId: !parentTerm
-            ? (!!term ? this.context.rootTermId : undefined)
-            : parentTerm.get_id().toString()
+      id: newTerm
+        .get_id()
+        .toString(), name: newTerm.get_name(), path: newTerm.get_pathOfTerm(), properties: {
+          isSelectable: true, parentId: !parentTerm ? (!!term ? this.context.rootTermId : undefined) : parentTerm
+            .get_id()
+            .toString()
         }
     };
 
@@ -180,10 +158,7 @@ export class TaxonomyApi {
     let rootTerm: SP.Taxonomy.Term | null = null;
 
     if (!!this.context.rootTermId) {
-      rootTerm = await termStore.getTermInTermSet(
-        new SP.Guid(this.context.termSetId),
-        new SP.Guid(this.context.rootTermId)
-      );
+      rootTerm = await termStore.getTermInTermSet(new SP.Guid(this.context.termSetId), new SP.Guid(this.context.rootTermId));
       this.spContext.load(rootTerm);
     }
 
@@ -191,7 +166,7 @@ export class TaxonomyApi {
 
     this.spContext.load(termSet);
     this.spContext.load(matchingTerms);
-    this.spContext.load(matchingTerms, "Include(Labels, Parent, Parent.Id)");
+    this.spContext.load(matchingTerms, "Include(Labels, Parent, Parent.Id, CustomSortOrder)");
     await this.awaitableExecuteQuery(this.spContext);
 
     const terms: ITerm[] = [];
@@ -224,11 +199,14 @@ export class TaxonomyApi {
 
       terms.push({
         id: currentTerm.get_id().toString(),
+        sortOrder: currentTerm.get_customSortOrder(),
         name: currentTerm.get_name(),
         labels: labels,
         path: currentTerm.get_pathOfTerm(),
         properties: {
-          isSelectable: currentTerm.get_isAvailableForTagging() && !currentTerm.get_isDeprecated(),
+          isSelectable:
+            currentTerm.get_isAvailableForTagging() &&
+            !currentTerm.get_isDeprecated(),
           parentId: parentId
         }
       });
@@ -238,19 +216,15 @@ export class TaxonomyApi {
   }
 
   private _getCacheKey(): string {
-    return !!this.context.rootTermId
-      ? `${this.context.termSetId}_${this.context.rootTermId}`
-      : this.context.termSetId;
+    return !!this.context.rootTermId ? `${this.context.termSetId}_${this.context.rootTermId}` : this.context.termSetId;
   }
 
   private _termDataToTerm(termData: ITermData) {
     return {
-      id: termData.id,
-      name: termData.name,
-      path: termData.path,
-      properties: {
-        isSelectable: termData.isSelectable,
-        children: termData.children.map(item => this._termDataToTerm(item))
+      id: termData.id, name: termData.name, path: termData.path, properties: {
+        isSelectable: termData.isSelectable, children: termData.children.map(
+          item => this._termDataToTerm(item)
+        )
       }
     };
   }
@@ -283,6 +257,63 @@ export class TaxonomyApi {
         }
       }
     }
+
+    // Next iteration -> sort the entire tree
+    return this._sortTree(tree);
+  }
+
+  private _sortTree(tree: ITermData[]) {
+    for (let i = 0; i < tree.length; i++) {
+      console.log(`Before sort: ${tree[i].name}`);
+      console.log(tree[i]);
+      tree[i] = this._sortTermAndChildren(tree[i]);
+      console.log(`After sort: ${tree[i].name}`);
+      console.log(tree[i]);
+    }
     return tree;
+  }
+
+  private _sortTermAndChildren(term: ITermData): ITermData {
+    if (term.children.length && term.sortOrder) {
+      console.log(`_sortTermAndChildren: ${term.name}`);
+      // If not null, the custom sort order is a string of GUIDs, delimited by a :
+      if (term.sortOrder) {
+        const sortOrderSplit = term.sortOrder.split(":");
+
+        term.children.sort((a, b) => {
+          if (!!a.id && !!b.id) {
+            const indexA = sortOrderSplit.indexOf(a.id);
+            const indexB = sortOrderSplit.indexOf(b.id);
+
+            if (indexA > indexB) {
+              return 1;
+            } else if (indexA < indexB) {
+              return -1;
+            }
+
+            return 0;
+          }
+
+          return 0;
+        });
+      } else {
+        // If null, terms are just sorted alphabetically
+        term.children.sort((a, b) => {
+          if (a.name > b.name) {
+            return 1;
+          } else if (a.name < b.name) {
+            return -1;
+          }
+
+          return 0;
+        });
+      }
+    }
+
+    for (let i = 0; i < term.children.length; i++) {
+      term.children[i] = this._sortTermAndChildren(term.children[i]);
+    }
+
+    return term;
   }
 }

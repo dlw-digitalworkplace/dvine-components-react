@@ -4,5 +4,6 @@ export interface ITermData {
   path: string;
   isSelectable: boolean;
   parentId: string | null;
+  sortOrder?: string;
   children: ITermData[];
 }

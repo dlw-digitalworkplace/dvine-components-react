@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.6.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.6.0",
+      "date": "Mon, 10 Dec 2018 15:15:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added sorting, added return key event on new terms"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.5.0",
       "date": "Tue, 06 Nov 2018 08:58:30 GMT",

@@ -6,6 +6,7 @@ export interface ITreeViewProps<T> {
   onSelectionChanged?: (value: T | null) => void;
   onItemInvoked?: (item: ITreeViewItem<T>) => void;
   onNewItemFocusOut?: () => void;
+  onNewItemKeyPress?: (event) => void;
   onNewItemValueChanged?: (value: string) => void;
 }
 

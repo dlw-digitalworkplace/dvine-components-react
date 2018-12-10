@@ -2,7 +2,6 @@ import { autobind } from "@uifabric/utilities/lib/autobind";
 import { css } from "@uifabric/utilities/lib/css";
 import { IObjectWithKey, ISelection } from "office-ui-fabric-react/lib/Selection";
 import * as React from "react";
-
 import { getClassName } from "../../utilities";
 import { TreeLabel } from "./TreeLabel";
 import { ITreeViewItem } from "./TreeView.types";
@@ -20,6 +19,7 @@ export interface ITreeNodeProps<T> {
   newItemValue?: string;
   onNewItemValueChanged?: (value: string) => void;
   onNewItemFocusOut?: () => void;
+  onNewItemKeyPress?: (event) => void;
   invokeItem?: (item: ITreeViewItem<T>) => void;
 }
 
@@ -36,9 +36,21 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
     };
   }
   public render(): JSX.Element {
-    const { item, selection, isRootNode, isOpenTermSet, invokeItem, itemAdding, onNewItemValueChanged, onNewItemFocusOut, newItemValue } = this.props;
+    const {
+      item,
+      selection,
+      isRootNode,
+      isOpenTermSet,
+      invokeItem,
+      itemAdding,
+      onNewItemValueChanged,
+      onNewItemFocusOut,
+      onNewItemKeyPress,
+      newItemValue
+    } = this.props;
     const { isCollapsed } = this.state;
-    const isItemAddingBelowSelectedNode: boolean | undefined = itemAdding && selection.isKeySelected(item.id);
+    const isItemAddingBelowSelectedNode: boolean | undefined =
+      itemAdding && selection.isKeySelected(item.id);
     return (
       <div
         className={css(getClassName("TreeView-Node"), styles.node, {
@@ -51,7 +63,10 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
           hasChildren={item.children && item.children.length > 0}
           isRootNode={isRootNode}
           isSelected={selection.isKeySelected(item.id)}
-          isSelectable={(isRootNode && isOpenTermSet) || selection.canSelectItem({ ...item, key: item.id } as IObjectWithKey)}
+          isSelectable={
+            (isRootNode && isOpenTermSet) ||
+            selection.canSelectItem({ ...item, key: item.id } as IObjectWithKey)
+          }
           isExpanded={!isCollapsed}
           onClick={this._selectItem}
           onDoubleClick={this._invokeItem}
@@ -62,6 +77,7 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
           <TreeLabelNew
             label={newItemValue}
             onNewItemValueChanged={onNewItemValueChanged}
+            onNewItemKeyPress={onNewItemKeyPress}
             onNewItemFocusOut={onNewItemFocusOut}
           />
         )}
@@ -79,6 +95,7 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
               invokeItem={invokeItem}
               onNewItemValueChanged={onNewItemValueChanged}
               onNewItemFocusOut={onNewItemFocusOut}
+              onNewItemKeyPress={onNewItemKeyPress}
               itemAdding={itemAdding}
               newItemValue={newItemValue}
             />

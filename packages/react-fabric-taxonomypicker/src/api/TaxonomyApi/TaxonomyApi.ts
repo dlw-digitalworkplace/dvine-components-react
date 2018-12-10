@@ -296,18 +296,13 @@ export class TaxonomyApi {
 
   private _sortTree(tree: ITermData[]) {
     for (let i = 0; i < tree.length; i++) {
-      console.log(`Before sort: ${tree[i].name}`);
-      console.log(tree[i]);
       tree[i] = this._sortTermAndChildren(tree[i]);
-      console.log(`After sort: ${tree[i].name}`);
-      console.log(tree[i]);
     }
     return tree;
   }
 
   private _sortTermAndChildren(term: ITermData): ITermData {
     if (term.children.length && term.sortOrder) {
-      console.log(`_sortTermAndChildren: ${term.name}`);
       // If not null, the custom sort order is a string of GUIDs, delimited by a :
       if (term.sortOrder) {
         const sortOrderSplit = term.sortOrder.split(":");

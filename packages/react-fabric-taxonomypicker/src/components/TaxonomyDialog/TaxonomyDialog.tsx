@@ -108,7 +108,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
-    const termTree = await taxonomyApi.getTermTree();
+    const termTree = await taxonomyApi.getTermTree(this.props.lcid);
     const rootTreeTerms = termTree.terms.filter(t => !!t.id && t.id === this.props.rootTermId);
     const rootTreeTerm = rootTreeTerms.length > 0 ? rootTreeTerms[0] : null;
 
@@ -121,6 +121,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
       treeViewData: {
         id: this.props.termSetId,
         label: termTree.termSetName,
+        defaultLabel: termTree.termSetName,
         children,
         value: null,
         isSelectable: termTree.isOpenTermSet
@@ -135,10 +136,12 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     return {
       id: item.id!,
       label: item.name,
+      defaultLabel: item.defaultLabel,
       value: {
         id: item.id,
         name: item.name,
-        path: item.path
+        path: item.path,
+        defaultLabel: item.defaultLabel
       },
       children:
         item.properties && item.properties.children
@@ -267,8 +270,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     };
     const taxonomyApi = new TaxonomyApi(apiContext);
     this.state.selectedTreeItem ?
-      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), 1033, this.state.selectedTreeItem) :
-      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid());
+      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), this.props.lcid, this.state.selectedTreeItem) :
+      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), this.props.lcid);
     await this._loadTermSetData();
 
     if (this.state.selectedTreeItem) {

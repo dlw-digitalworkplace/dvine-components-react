@@ -130,6 +130,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               itemLimit={this.props.itemLimit}
               defaultLabelOnly={this.props.defaultLabelOnly}
               exactMatchOnly={this.props.exactMatchOnly}
+              lcid={this.props.lcid}
             />
           )}
         </div>
@@ -289,7 +290,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     }
 
     const taxonomyApi = new TaxonomyApi(apiContext);
-    const newTerm = await taxonomyApi.createTerm(input, generatedTermId);
+    const newTerm = await taxonomyApi.createTerm(input, generatedTermId, this.props.lcid);
 
     return newTerm;
   }

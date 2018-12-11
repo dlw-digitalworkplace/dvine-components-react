@@ -7,6 +7,7 @@ import { ITerm } from "../../model/ITerm";
 export interface ITaxonomyPickerProps extends IBaseProps {
   absoluteSiteUrl: string;
   label?: string;
+  lcid?: number;
   required?: boolean;
   disabled?: boolean;
   isLoading?: boolean;

@@ -15,6 +15,7 @@ export interface ITaxonomyPickerDemoWebPartProps {
   termSetId: string;
   rootTermId: string;
   itemLimit: number;
+  lcid: number;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -27,7 +28,8 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
         absoluteSiteUrl: this.context.pageContext.site.absoluteUrl,
         termSetId: this.properties.termSetId,
         rootTermId: this.properties.rootTermId,
-        itemLimit: this.properties.itemLimit
+        itemLimit: this.properties.itemLimit,
+        lcid: this.properties.lcid
       }
     );
 
@@ -57,6 +59,9 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
                 }),
                 PropertyPaneTextField("itemLimit", {
                   label: strings.ItemLimitFieldLabel
+                }),
+                PropertyPaneTextField("lcid", {
+                  label: strings.LcidFieldLabel
                 })
               ]
             }

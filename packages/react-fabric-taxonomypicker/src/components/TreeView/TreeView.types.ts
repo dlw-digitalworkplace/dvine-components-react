@@ -13,6 +13,7 @@ export interface ITreeViewProps<T> {
 export interface ITreeViewItem<T> {
   id: string;
   label: string;
+  defaultLabel: string;
   value: T | null;
   children?: ITreeViewItem<T>[];
   isSelectable?: boolean;

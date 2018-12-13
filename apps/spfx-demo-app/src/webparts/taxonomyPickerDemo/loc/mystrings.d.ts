@@ -4,6 +4,7 @@ declare interface ITaxonomyPickerDemoWebPartStrings {
   TermSetIdFieldLabel: string;
   RootTermIdFieldLabel: string;
   ItemLimitFieldLabel: string;
+  LcidFieldLabel: string;
 }
 
 declare module "TaxonomyPickerDemoWebPartStrings" {

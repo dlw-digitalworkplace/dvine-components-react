@@ -4,6 +4,7 @@ define([], function () {
     BasicGroupName: "Basic configuration",
     TermSetIdFieldLabel: "Term Set ID",
     RootTermIdFieldLabel: "Root Term ID",
-    ItemLimitFieldLabel: "Item Limit"
+    ItemLimitFieldLabel: "Item Limit",
+    LcidFieldLabel: "Locale ID"
   };
 });

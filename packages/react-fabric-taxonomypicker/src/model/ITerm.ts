@@ -1,5 +1,6 @@
 export interface ITerm {
   id?: string;
+  defaultLabel: string;
   name: string;
   path: string;
   properties?: ITermProperties;

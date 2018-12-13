@@ -15,7 +15,8 @@
       "description": { "default": " " },
       "officeFabricIconFontName": "Page",
       "properties": {
-        "itemLimit": 5
+        "itemLimit": 5,
+        "lcid": 1033
       }
     }
   ]

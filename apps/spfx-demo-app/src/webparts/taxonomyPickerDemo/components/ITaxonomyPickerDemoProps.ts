@@ -3,4 +3,5 @@ export interface ITaxonomyPickerDemoProps {
   termSetId: string;
   rootTermId: string;
   itemLimit: number;
+  lcid: number;
 }

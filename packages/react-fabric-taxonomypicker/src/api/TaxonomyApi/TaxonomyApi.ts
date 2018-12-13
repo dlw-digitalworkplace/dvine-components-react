@@ -20,17 +20,21 @@ export class TaxonomyApi {
     this.cacheKey = this._getCacheKey();
   }
 
-  public async getTerms(noCache: boolean = false): Promise<ITerm[]> {
-    const cachedData = TaxonomyApi.CACHEDATA[this.cacheKey];
+  public async getTerms(lcid: number = 1033, noCache: boolean = false): Promise<ITerm[]> {
+    if (!noCache) {
+      const cachedData = TaxonomyApi.CACHEDATA[this.cacheKey];
 
-    if (cachedData) {
-      return cachedData;
+      if (cachedData) {
+        return cachedData;
+      }
     }
 
-    const termData = await this._getTermsInteral();
+    const termData = await this._getTermsInteral(lcid);
 
     // write data to cache
-    TaxonomyApi.CACHEDATA[this.cacheKey] = termData;
+    if (!noCache) {
+      TaxonomyApi.CACHEDATA[this.cacheKey] = termData;
+    }
 
     return termData;
   }
@@ -75,7 +79,7 @@ export class TaxonomyApi {
     return matchingTerms;
   }
 
-  public async getTermTree(): Promise<{
+  public async getTermTree(lcid: number = 1033): Promise<{
     termSetName: string;
     isOpenTermSet: boolean;
     terms: ITerm[];
@@ -87,12 +91,13 @@ export class TaxonomyApi {
     this.spContext.load(termSet);
     await this.awaitableExecuteQuery(this.spContext);
 
-    const terms = await this.getTerms();
+    const terms = await this.getTerms(lcid);
     const isOpenTermSet = termSet.get_isOpenForTermCreation();
     const termData: ITermData[] = terms.map(term => ({
       id: term.id,
       name: term.name,
       path: term.path,
+      defaultLabel: term.defaultLabel,
       isSelectable: term.properties!.isSelectable || false,
       parentId: term.properties!.parentId || null,
       sortOrder: term.sortOrder,
@@ -145,6 +150,7 @@ export class TaxonomyApi {
     const newTermInfo: ITerm = {
       id: newTerm.get_id().toString(),
       name: newTerm.get_name(),
+      defaultLabel: newTerm.get_name(),
       path: newTerm.get_pathOfTerm(),
       properties: {
         isSelectable: true,
@@ -177,7 +183,7 @@ export class TaxonomyApi {
     );
   }
 
-  private async _getTermsInteral(): Promise<ITerm[]> {
+  private async _getTermsInteral(lcid: number = 1033): Promise<ITerm[]> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -206,7 +212,8 @@ export class TaxonomyApi {
     while (termEnumerator.moveNext()) {
       const currentTerm = termEnumerator.get_current();
 
-      // If there is a root term filled, check if the current term is under it otherwise skip it
+      // If there is a root term filled in the web part properties,
+      // check if the current term is under it otherwise skip it
       if (rootTermPath && currentTerm.get_pathOfTerm().indexOf(rootTermPath) !== 0) {
         continue;
       }
@@ -220,6 +227,12 @@ export class TaxonomyApi {
       }
 
       const termLabels = currentTerm.get_labels();
+      const termLabelByLcid = currentTerm.getDefaultLabel(lcid);
+      const termLabelEn = currentTerm.getDefaultLabel(1033);
+
+      await this.awaitableExecuteQuery(this.spContext);
+
+      const termLabel: string = termLabelByLcid ? termLabelByLcid.get_value() : termLabelEn.get_value();
       const labels: string[] = [];
       const labelsEnumerator = termLabels.getEnumerator();
       while (labelsEnumerator.moveNext()) {
@@ -231,6 +244,7 @@ export class TaxonomyApi {
         id: currentTerm.get_id().toString(),
         sortOrder: currentTerm.get_customSortOrder(),
         name: currentTerm.get_name(),
+        defaultLabel: termLabel,
         labels: labels,
         path: currentTerm.get_pathOfTerm(),
         properties: {
@@ -254,6 +268,7 @@ export class TaxonomyApi {
       id: termData.id,
       name: termData.name,
       path: termData.path,
+      defaultLabel: termData.defaultLabel,
       properties: {
         isSelectable: termData.isSelectable,
         children: termData.children.map(item => this._termDataToTerm(item))

@@ -59,7 +59,7 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
       >
         <TreeLabel
           id={item.id}
-          label={item.label}
+          label={item.defaultLabel ? item.defaultLabel : item.label}
           hasChildren={item.children && item.children.length > 0}
           isRootNode={isRootNode}
           isSelected={selection.isKeySelected(item.id)}

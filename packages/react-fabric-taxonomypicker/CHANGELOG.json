@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.7.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.7.0",
+      "date": "Thu, 13 Dec 2018 15:34:29 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Fetch translated label by locale based on lcid property"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.6.0",
       "date": "Mon, 10 Dec 2018 15:15:43 GMT",

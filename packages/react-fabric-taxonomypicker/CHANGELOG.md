@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Mon, 10 Dec 2018 15:15:43 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Dec 2018 15:34:29 GMT and should not be manually modified.
+
+## 1.7.0
+Thu, 13 Dec 2018 15:34:29 GMT
+
+### Minor changes
+
+- Fetch translated label by locale based on lcid property
 
 ## 1.6.0
 Mon, 10 Dec 2018 15:15:43 GMT

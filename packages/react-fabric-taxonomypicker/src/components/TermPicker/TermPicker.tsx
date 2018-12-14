@@ -14,9 +14,11 @@ export interface ITermPickerProps extends IBasePickerProps<ITerm> { }
 export class TermPicker extends BasePicker<ITerm, ITermPickerProps> {
   protected static defaultProps: Partial<ITermPickerProps> = {
     onRenderItem: (props: IPickerItemProps<ITerm>) => {
-      return <TermItem {...props}>
+      return (
+        <TermItem {...props}>
           {props.item.defaultLabel ? props.item.defaultLabel : props.item.name}
-        </TermItem>;
+        </TermItem>
+      );
     },
     onRenderSuggestionsItem: (props: ITerm) => <TermSuggestion {...props} />,
     getTextFromItem: item => item.defaultLabel ? item.defaultLabel : item.name

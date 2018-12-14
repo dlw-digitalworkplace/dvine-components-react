@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Thu, 13 Dec 2018 15:34:29 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Dec 2018 09:13:38 GMT and should not be manually modified.
+
+## 1.7.1
+Fri, 14 Dec 2018 09:13:38 GMT
+
+### Patches
+
+- Bug in selecting translated term: label was not translated in the selection input
 
 ## 1.7.0
 Thu, 13 Dec 2018 15:34:29 GMT

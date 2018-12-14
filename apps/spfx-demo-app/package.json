@@ -25,7 +25,7 @@
     "@pnp/sp": "^1.1.2",
     "@types/webpack-env": "^1.13.5",
     "@dlw-digitalworkplace/react-fabric-peoplepicker": "1.0.4",
-    "@dlw-digitalworkplace/react-fabric-taxonomypicker": "1.7.0"
+    "@dlw-digitalworkplace/react-fabric-taxonomypicker": "1.7.1"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "~1.4.1",

@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.7.1",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.7.1",
+      "date": "Fri, 14 Dec 2018 09:13:38 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bug in selecting translated term: label was not translated in the selection input"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.7.0",
       "date": "Thu, 13 Dec 2018 15:34:29 GMT",

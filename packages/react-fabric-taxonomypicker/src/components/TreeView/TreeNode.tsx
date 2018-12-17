@@ -15,6 +15,7 @@ export interface ITreeNodeProps<T> {
   isOpenTermSet: boolean;
   isRootNode: boolean;
   defaultExpanded?: boolean;
+  firstSelectedItemId?: string;
   itemAdding?: boolean;
   newItemValue?: string;
   onNewItemValueChanged?: (value: string) => void;
@@ -30,9 +31,8 @@ export interface ITreeNodeState {
 export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeState> {
   constructor(props: ITreeNodeProps<T>) {
     super(props);
-
     this.state = {
-      isCollapsed: !props.defaultExpanded
+      isCollapsed: !props.item.expanded
     };
   }
   public render(): JSX.Element {
@@ -84,22 +84,24 @@ export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeSta
 
         {!isCollapsed &&
           item.children &&
-          item.children.map((child, index) => (
-            <TreeNode
-              key={child.id}
-              item={child}
-              isRootNode={false}
-              selection={selection}
-              isOpenTermSet={isOpenTermSet}
-              defaultExpanded={isRootNode && index === 0}
-              invokeItem={invokeItem}
-              onNewItemValueChanged={onNewItemValueChanged}
-              onNewItemFocusOut={onNewItemFocusOut}
-              onNewItemKeyPress={onNewItemKeyPress}
-              itemAdding={itemAdding}
-              newItemValue={newItemValue}
-            />
-          ))}
+          item.children.map((child, index) => {
+            return (
+              <TreeNode
+                key={child.id}
+                item={child}
+                isRootNode={false}
+                selection={selection}
+                isOpenTermSet={isOpenTermSet}
+                defaultExpanded={child.expanded}
+                invokeItem={invokeItem}
+                onNewItemValueChanged={onNewItemValueChanged}
+                onNewItemFocusOut={onNewItemFocusOut}
+                onNewItemKeyPress={onNewItemKeyPress}
+                itemAdding={itemAdding}
+                newItemValue={newItemValue}
+              />
+            );
+          })}
       </div>
     );
   }

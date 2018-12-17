@@ -67,6 +67,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         <div className={css(getClassName("TaxonomyDialog-Tree"), styles.taxonomyTree)}>
           <TreeView
             termSetId={this.props.termSetId}
+            selectedItems={this.state.selectedItems}
             isOpenTermSet={this.state.isOpenTermSet}
             data={this.state.treeViewData}
             onItemInvoked={this._onTreeItemInvoked}
@@ -124,6 +125,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         defaultLabel: termTree.termSetName,
         children,
         value: null,
+        expanded: true,
         isSelectable: termTree.isOpenTermSet
       },
       itemAdding,
@@ -133,7 +135,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
   @autobind
   private _termToTreeViewItem(item: ITerm): ITreeViewItem<ITerm> {
-    return {
+    const treeViewItem: ITreeViewItem<ITerm> = {
       id: item.id!,
       label: item.name,
       defaultLabel: item.defaultLabel,
@@ -149,6 +151,34 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
           : [],
       isSelectable: item.properties && item.properties.isSelectable
     };
+
+    treeViewItem.expanded = this._isExpanded(treeViewItem);
+
+    return treeViewItem;
+  }
+
+  @autobind
+  private _isExpanded(item: ITreeViewItem<ITerm>): boolean {
+    if (this.props.defaultSelectedItems && this.props.defaultSelectedItems.length > 0) {
+      if (item.id === this.props.defaultSelectedItems[0].id) {
+        return true;
+      } else if (item.children) {
+        return this._isExpandedChild(item.children);
+      }
+    }
+
+    return false;
+  }
+
+  private _isExpandedChild(items: ITreeViewItem<ITerm>[]): boolean {
+    for (let i = 0; i < items.length; i++) {
+      const isExpanded: boolean = this._isExpanded(items[i]);
+      if (isExpanded) {
+        return isExpanded;
+      }
+    }
+
+    return false;
   }
 
   @autobind

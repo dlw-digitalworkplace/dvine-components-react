@@ -21,12 +21,14 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
   constructor(props: ITreeViewProps<T>) {
     super(props);
 
+    const selection: Selection = new Selection({
+      onSelectionChanged: this._onSelectionChanged,
+      selectionMode: SelectionMode.single,
+      canSelectItem: (item: IObjectWithKey & ITreeViewItem<T>) => !!item.isSelectable
+    });
+
     this.state = {
-      selection: new Selection({
-        onSelectionChanged: this._onSelectionChanged,
-        selectionMode: SelectionMode.single,
-        canSelectItem: (item: IObjectWithKey & ITreeViewItem<T>) => !!item.isSelectable
-      })
+      selection
     };
 
     this._setSelectableItems(props.data);
@@ -34,6 +36,9 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
 
   public componentDidMount() {
     this._hasMounted = true;
+
+    // Update selected nodes
+
   }
 
   public componentWillReceiveProps(newProps: ITreeViewProps<T>) {
@@ -43,14 +48,19 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
   }
 
   public render(): JSX.Element {
-    const { data, isOpenTermSet, onItemInvoked, onNewItemValueChanged, onNewItemFocusOut, onNewItemKeyPress, itemAdding } = this.props;
+    const { data, isOpenTermSet, selectedItems, onItemInvoked, onNewItemValueChanged, onNewItemFocusOut, onNewItemKeyPress, itemAdding } = this.props;
     const { selection } = this.state;
+
+    const firstSelectedItemId: string = selectedItems ? selectedItems.filter(x => !!x.id).map(x => {
+      return x.id!;
+    })[0] : "";
 
     return (
       <div>
         {data && (
           <TreeNode
             item={data}
+            firstSelectedItemId={firstSelectedItemId}
             selection={selection}
             defaultExpanded={true}
             isRootNode={true}
@@ -94,5 +104,10 @@ export class TreeView<T> extends React.Component<ITreeViewProps<T>, ITreeViewSta
       : [];
 
     this.state.selection.setItems(flattenedData, false);
+
+    if (this.props.selectedItems && this.props.selectedItems.length > 0) {
+      // Only select first item
+      this.state.selection.setKeySelected(this.props.selectedItems[0].id!, true, false);
+    }
   }
 }

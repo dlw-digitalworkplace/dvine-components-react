@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.8.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.8.0",
+      "date": "Mon, 17 Dec 2018 14:43:24 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "First selected node in picker is also selected in dialog"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.1",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.7.1",
       "date": "Fri, 14 Dec 2018 09:13:38 GMT",

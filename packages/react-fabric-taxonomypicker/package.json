@@ -1,6 +1,6 @@
 {
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "",
   "repository": {
     "type": "git",
@@ -11,7 +11,8 @@
   "scripts": {
     "build": "node ../../scripts/build.js",
     "clean": "node ../../scripts/clean.js",
-    "start": "node ../../scripts/start.js"
+    "start": "node ../../scripts/start.js",
+    "prepublish": "cd ../.. && npm run build"
   },
   "keywords": [],
   "author": "",

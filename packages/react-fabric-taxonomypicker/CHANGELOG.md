@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Fri, 14 Dec 2018 09:13:38 GMT and should not be manually modified.
+This log was last generated on Mon, 17 Dec 2018 14:43:24 GMT and should not be manually modified.
+
+## 1.8.0
+Mon, 17 Dec 2018 14:43:24 GMT
+
+### Minor changes
+
+- First selected node in picker is also selected in dialog
 
 ## 1.7.1
 Fri, 14 Dec 2018 09:13:38 GMT

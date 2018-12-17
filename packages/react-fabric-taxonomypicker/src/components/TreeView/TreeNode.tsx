@@ -31,7 +31,6 @@ export interface ITreeNodeState {
 export class TreeNode<T> extends React.Component<ITreeNodeProps<T>, ITreeNodeState> {
   constructor(props: ITreeNodeProps<T>) {
     super(props);
-
     this.state = {
       isCollapsed: !props.item.expanded
     };

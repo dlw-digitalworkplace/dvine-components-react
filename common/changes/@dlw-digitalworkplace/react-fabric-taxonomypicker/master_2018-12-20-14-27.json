@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "comment": "Search for terms with unicode characters such as &",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+  "email": "klaaslauwers@gmail.com"
+}

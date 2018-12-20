@@ -148,7 +148,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
     const taxonomyApi = new TaxonomyApi(apiContext);
     const matchingTerms = await taxonomyApi.findTerms(
-      filter,
+      this._replaceIllegalCharacters(filter),
       this.props.defaultLabelOnly,
       this.props.exactMatchOnly,
       10,
@@ -158,6 +158,20 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     return matchingTerms.filter(
       item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
     );
+  }
+
+  private _replaceIllegalCharacters(termLabel: string): string {
+    let termLabelNew: string = this._replaceAll(termLabel, "\t", " ");
+    termLabelNew = this._replaceAll(termLabelNew, ";", ",");
+    termLabelNew = this._replaceAll(termLabelNew, "\"", "\uFF02");
+    termLabelNew = this._replaceAll(termLabelNew, "<", "\uFF1C");
+    termLabelNew = this._replaceAll(termLabelNew, ">", "\uFF1E");
+    termLabelNew = this._replaceAll(termLabelNew, "&", "＆");
+    return termLabelNew;
+  }
+
+  private _replaceAll(str: string, find: string, replace: string) {
+    return str.replace(new RegExp(find, "g"), replace);
   }
 
   @autobind

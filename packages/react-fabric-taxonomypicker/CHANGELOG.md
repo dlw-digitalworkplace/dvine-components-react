@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Mon, 17 Dec 2018 14:43:24 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Dec 2018 14:31:06 GMT and should not be manually modified.
+
+## 1.8.1
+Thu, 20 Dec 2018 14:31:06 GMT
+
+### Patches
+
+- Search for terms with unicode characters such as &
 
 ## 1.8.0
 Mon, 17 Dec 2018 14:43:24 GMT

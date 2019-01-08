@@ -4,4 +4,5 @@ export interface ITaxonomyPickerDemoProps {
   rootTermId: string;
   itemLimit: number;
   lcid: number;
+  showTranslatedLabels: boolean;
 }

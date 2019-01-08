@@ -44,6 +44,7 @@ export class TaxonomyApi {
     if (!filter || filter.length === 0) {
       return [];
     }
+
     if (!resultSize) {
       resultSize = 10;
     }

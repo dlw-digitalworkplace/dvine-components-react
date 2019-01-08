@@ -7,8 +7,6 @@ import { SPComponentLoader } from "@microsoft/sp-loader";
 import * as React from "react";
 
 export interface ITaxonomyPickerLoaderProps extends ITaxonomyPickerProps {
-  absoluteSiteUrl: string;
-  lcid: number;
 }
 
 export interface ITaxonomyPickerLoaderState {

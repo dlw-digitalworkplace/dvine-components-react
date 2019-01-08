@@ -4,7 +4,7 @@ import { css } from "@uifabric/utilities/lib/css";
 import { DefaultButton, PrimaryButton } from "office-ui-fabric-react/lib/Button";
 import { Dialog, DialogFooter, DialogType, IDialog } from "office-ui-fabric-react/lib/Dialog";
 import * as React from "react";
-
+import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import * as Guid from "uuid/v4";
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
@@ -198,9 +198,11 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
     const taxonomyApi = new TaxonomyApi(apiContext);
     const matchingTerms = await taxonomyApi.findTerms(
-      filter,
+      replaceIllegalCharacters(filter),
+      this.props.lcid,
       this.props.defaultLabelOnly,
       this.props.exactMatchOnly,
+      this.props.searchTranslatedLabels,
       10,
       true
     );

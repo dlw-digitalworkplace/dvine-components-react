@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Thu, 20 Dec 2018 14:31:06 GMT and should not be manually modified.
+This log was last generated on Tue, 08 Jan 2019 14:48:10 GMT and should not be manually modified.
+
+## 1.9.0
+Tue, 08 Jan 2019 14:48:10 GMT
+
+### Minor changes
+
+- x) Added showTranslatedLabels property to show or hide the translated labels in the term pickers for performance reasons. Setting to false will get rid of the long getDefaultLabel queries per term. x) Updated demo: lcid was not properly passed along. x) Bug when searching for strange characters in taxonomy dialog term picker
 
 ## 1.8.1
 Thu, 20 Dec 2018 14:31:06 GMT

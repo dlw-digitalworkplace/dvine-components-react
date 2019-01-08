@@ -7,7 +7,7 @@ import { Label } from "office-ui-fabric-react/lib/Label";
 import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 import * as Guid from "uuid/v4";
-
+import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
 import { getClassName } from "../../utilities";
@@ -131,6 +131,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               defaultLabelOnly={this.props.defaultLabelOnly}
               exactMatchOnly={this.props.exactMatchOnly}
               lcid={this.props.lcid}
+              showTranslatedLabels={this.props.showTranslatedLabels}
             />
           )}
         </div>
@@ -148,9 +149,11 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
     const taxonomyApi = new TaxonomyApi(apiContext);
     const matchingTerms = await taxonomyApi.findTerms(
-      this._replaceIllegalCharacters(filter),
+      replaceIllegalCharacters(filter),
+      this.props.lcid,
       this.props.defaultLabelOnly,
       this.props.exactMatchOnly,
+      this.props.showTranslatedLabels,
       10,
       true
     );
@@ -158,20 +161,6 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     return matchingTerms.filter(
       item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
     );
-  }
-
-  private _replaceIllegalCharacters(termLabel: string): string {
-    let termLabelNew: string = this._replaceAll(termLabel, "\t", " ");
-    termLabelNew = this._replaceAll(termLabelNew, ";", ",");
-    termLabelNew = this._replaceAll(termLabelNew, "\"", "\uFF02");
-    termLabelNew = this._replaceAll(termLabelNew, "<", "\uFF1C");
-    termLabelNew = this._replaceAll(termLabelNew, ">", "\uFF1E");
-    termLabelNew = this._replaceAll(termLabelNew, "&", "＆");
-    return termLabelNew;
-  }
-
-  private _replaceAll(str: string, find: string, replace: string) {
-    return str.replace(new RegExp(find, "g"), replace);
   }
 
   @autobind

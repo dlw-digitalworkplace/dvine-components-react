@@ -2,7 +2,8 @@ import { Version } from "@microsoft/sp-core-library";
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneToggle
 } from "@microsoft/sp-webpart-base";
 import * as React from "react";
 import * as ReactDom from "react-dom";
@@ -16,6 +17,7 @@ export interface ITaxonomyPickerDemoWebPartProps {
   rootTermId: string;
   itemLimit: number;
   lcid: number;
+  showTranslatedLabels: boolean;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -29,7 +31,8 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
         termSetId: this.properties.termSetId,
         rootTermId: this.properties.rootTermId,
         itemLimit: this.properties.itemLimit,
-        lcid: this.properties.lcid
+        lcid: this.properties.lcid,
+        showTranslatedLabels: this.properties.showTranslatedLabels
       }
     );
 
@@ -62,6 +65,10 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
                 }),
                 PropertyPaneTextField("lcid", {
                   label: strings.LcidFieldLabel
+                }),
+                PropertyPaneToggle("showTranslatedLabels", {
+                  label: strings.ShowTranslatedLabelsLabel,
+                  checked: this.properties.showTranslatedLabels
                 })
               ]
             }

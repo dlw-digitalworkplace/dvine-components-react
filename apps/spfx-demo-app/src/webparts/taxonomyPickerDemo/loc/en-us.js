@@ -5,6 +5,7 @@ define([], function () {
     TermSetIdFieldLabel: "Term Set ID",
     RootTermIdFieldLabel: "Root Term ID",
     ItemLimitFieldLabel: "Item Limit",
-    LcidFieldLabel: "Locale ID"
+    LcidFieldLabel: "Locale ID",
+    ShowTranslatedLabelsLabel: "Search Translated Labels"
   };
 });

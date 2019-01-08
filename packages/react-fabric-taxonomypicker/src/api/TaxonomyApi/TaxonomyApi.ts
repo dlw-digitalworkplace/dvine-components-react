@@ -20,7 +20,7 @@ export class TaxonomyApi {
     this.cacheKey = this._getCacheKey();
   }
 
-  public async getTerms(lcid: number = 1033, noCache: boolean = false, searchTranslatedLabels: boolean = false): Promise<ITerm[]> {
+  public async getTerms(lcid: number = 1033, noCache: boolean = false, showTranslatedLabels: boolean = false): Promise<ITerm[]> {
     if (!noCache) {
       const cachedData = TaxonomyApi.CACHEDATA[this.cacheKey];
 
@@ -29,7 +29,7 @@ export class TaxonomyApi {
       }
     }
 
-    const termData = await this._getTermsInteral(lcid, searchTranslatedLabels);
+    const termData = await this._getTermsInteral(lcid, showTranslatedLabels);
 
     // write data to cache
     if (!noCache) {
@@ -40,7 +40,7 @@ export class TaxonomyApi {
   }
 
   public async findTerms(filter: string, lcid: number = 1033, defaultLabelOnly?: boolean,
-    exactMatch?: boolean, searchTranslatedLabels?: boolean, resultSize?: number, trimUnavailable?: boolean): Promise<ITerm[]> {
+    exactMatch?: boolean, showTranslatedLabels?: boolean, resultSize?: number, trimUnavailable?: boolean): Promise<ITerm[]> {
     if (!filter || filter.length === 0) {
       return [];
     }
@@ -49,7 +49,7 @@ export class TaxonomyApi {
       resultSize = 10;
     }
 
-    const allTerms = await this.getTerms(lcid, false, searchTranslatedLabels);
+    const allTerms = await this.getTerms(lcid, false, showTranslatedLabels);
     let matchingTerms: ITerm[] = allTerms.filter(term => {
       let isMatch = true;
       if (exactMatch) {
@@ -163,7 +163,7 @@ export class TaxonomyApi {
     );
   }
 
-  private async _getTermsInteral(lcid: number = 1033, searchTranslatedLabels: boolean = false): Promise<ITerm[]> {
+  private async _getTermsInteral(lcid: number = 1033, showTranslatedLabels: boolean = false): Promise<ITerm[]> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
     const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
@@ -206,7 +206,7 @@ export class TaxonomyApi {
       const termLabels = currentTerm.get_labels();
       let termLabel: string = currentTerm.get_name();
 
-      if (searchTranslatedLabels) {
+      if (showTranslatedLabels) {
         const termLabelByLcid = currentTerm.getDefaultLabel(lcid);
         const termLabelEn = currentTerm.getDefaultLabel(1033);
 

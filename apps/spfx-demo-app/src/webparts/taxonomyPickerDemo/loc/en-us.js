@@ -6,6 +6,6 @@ define([], function () {
     RootTermIdFieldLabel: "Root Term ID",
     ItemLimitFieldLabel: "Item Limit",
     LcidFieldLabel: "Locale ID",
-    SearchTranslatedLabelsLabel: "Search Translated Labels"
+    ShowTranslatedLabelsLabel: "Search Translated Labels"
   };
 });

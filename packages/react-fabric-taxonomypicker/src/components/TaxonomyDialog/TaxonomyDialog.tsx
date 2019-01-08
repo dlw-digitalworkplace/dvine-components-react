@@ -202,7 +202,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
       this.props.lcid,
       this.props.defaultLabelOnly,
       this.props.exactMatchOnly,
-      this.props.searchTranslatedLabels,
+      this.props.showTranslatedLabels,
       10,
       true
     );

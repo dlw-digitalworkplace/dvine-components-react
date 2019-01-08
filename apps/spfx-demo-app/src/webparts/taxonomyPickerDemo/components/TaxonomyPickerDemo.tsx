@@ -16,7 +16,7 @@ export default class TaxonomyPickerDemo extends React.Component<ITaxonomyPickerD
           itemLimit={this.props.itemLimit}
           allowAddTerms={true}
           lcid={this.props.lcid}
-          searchTranslatedLabels={this.props.searchTranslatedLabels}
+          showTranslatedLabels={this.props.showTranslatedLabels}
         />
       </div>
     );

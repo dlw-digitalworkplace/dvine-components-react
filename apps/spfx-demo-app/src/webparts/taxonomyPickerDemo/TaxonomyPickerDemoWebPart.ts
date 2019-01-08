@@ -17,7 +17,7 @@ export interface ITaxonomyPickerDemoWebPartProps {
   rootTermId: string;
   itemLimit: number;
   lcid: number;
-  searchTranslatedLabels: boolean;
+  showTranslatedLabels: boolean;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -32,7 +32,7 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
         rootTermId: this.properties.rootTermId,
         itemLimit: this.properties.itemLimit,
         lcid: this.properties.lcid,
-        searchTranslatedLabels: this.properties.searchTranslatedLabels
+        showTranslatedLabels: this.properties.showTranslatedLabels
       }
     );
 
@@ -66,9 +66,9 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
                 PropertyPaneTextField("lcid", {
                   label: strings.LcidFieldLabel
                 }),
-                PropertyPaneToggle("searchTranslatedLabels", {
-                  label: strings.SearchTranslatedLabelsLabel,
-                  checked: this.properties.searchTranslatedLabels
+                PropertyPaneToggle("showTranslatedLabels", {
+                  label: strings.ShowTranslatedLabelsLabel,
+                  checked: this.properties.showTranslatedLabels
                 })
               ]
             }

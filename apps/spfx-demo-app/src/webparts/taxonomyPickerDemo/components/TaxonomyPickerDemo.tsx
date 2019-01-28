@@ -9,6 +9,7 @@ export default class TaxonomyPickerDemo extends React.Component<ITaxonomyPickerD
     return (
       <div className={styles.taxonomyPickerDemo}>
         <TaxonomyPickerLoader
+          title="Select your demo data"
           absoluteSiteUrl={this.props.absoluteSiteUrl}
           label="Demo picker"
           termSetId={this.props.termSetId}

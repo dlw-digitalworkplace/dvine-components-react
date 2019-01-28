@@ -5,6 +5,7 @@ import { ITerm } from "../../model/ITerm";
 import { ITreeViewItem } from "../TreeView";
 
 export interface ITaxonomyDialogProps extends IBaseProps {
+  title?: string;
   absoluteSiteUrl: string;
   termSetId: string;
   rootTermId?: string;

@@ -120,6 +120,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
           {this.state.isPopupOpen && (
             <TaxonomyDialog
+              title={this.props.title}
               absoluteSiteUrl={this.props.absoluteSiteUrl}
               defaultSelectedItems={this.state.items}
               termSetId={this.props.termSetId}
@@ -185,7 +186,9 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   }
 
   private _getRequestedTerm(input: string) {
-    const requestedTerms = this.requestedTerms.filter((rt) => { return rt.label === input; });
+    const requestedTerms = this.requestedTerms.filter(rt => {
+      return rt.label === input;
+    });
     const requestedTerm = requestedTerms.length > 0 ? requestedTerms[0] : null;
     return requestedTerm;
   }

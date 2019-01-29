@@ -59,11 +59,12 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
           className: styles.dialog
         }}
         onDismiss={this._onDismiss}
-        dialogContentProps={{ type: DialogType.close, title: "Browse Term Set" }}
+        dialogContentProps={{
+          type: DialogType.close,
+          title: this.props.title || "Browse Term Set"
+        }}
       >
-        {this.state.isOpenTermSet &&
-          <TermAdder addNewItemClick={this._onAddNewItemClick} />
-        }
+        {this.state.isOpenTermSet && <TermAdder addNewItemClick={this._onAddNewItemClick} />}
         <div className={css(getClassName("TaxonomyDialog-Tree"), styles.taxonomyTree)}>
           <TreeView
             termSetId={this.props.termSetId}

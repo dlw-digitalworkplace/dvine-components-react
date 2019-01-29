@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.10.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.0",
+      "date": "Mon, 28 Jan 2019 17:41:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "x) Allow custom title in taxonomy dialog term picker"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.9.0",
       "date": "Tue, 08 Jan 2019 14:48:10 GMT",

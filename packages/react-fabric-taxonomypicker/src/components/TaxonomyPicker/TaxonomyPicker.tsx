@@ -20,6 +20,7 @@ const styles = require("./TaxonomyPicker.module.scss");
 export interface ITaxonomyPickerState {
   items: ITerm[];
   isPopupOpen: boolean;
+  isLoaded: boolean;
 }
 
 interface IRequestedTerm {
@@ -50,7 +51,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
     this.state = {
       items: items,
-      isPopupOpen: false
+      isPopupOpen: false,
+      isLoaded: false
     };
   }
 
@@ -159,9 +161,17 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
       true
     );
 
-    return matchingTerms.filter(
+    const filteredItems = matchingTerms.filter(
       item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
     );
+
+    if (!this.state.isLoaded) {
+      this.setState({
+        isLoaded: true
+      });
+    }
+
+    return filteredItems;
   }
 
   @autobind
@@ -227,6 +237,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   private _onValidateInput(input: string): ValidationState {
     if (
       !this.props.allowAddTerms ||
+      !this.state.isLoaded ||
       !input ||
       this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase())
     ) {

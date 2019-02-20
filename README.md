@@ -3,6 +3,8 @@ Common React components for use in SharePoint Framework projects which use the O
 
 Demo implementation can be found in [apps/spfx-demo-app](apps/spfx-demo-app)
 
+Submitting pull requests is strongly encouraged 😃. Make sure to read the **[Contribution guidelines](#contributing)**
+
 # react-fabric-peoplepicker
 
 A people picker which retrieves its data from the https://github.com/pnp/pnpjs library
@@ -46,7 +48,6 @@ import { TaxonomyPicker } from "@dlw-digitalworkplace/react-fabric-taxonomypicke
 ```
 
 # Contributing
-Submitting pull requests is strongly encouraged 😃
 
 This project uses [Rush](https://rushjs.io/) as a monorepo manager, which includes automatic changelog creation.
 Therefore, before submitting the pull request, **run `rush version` on your code and commit the generated change file**.

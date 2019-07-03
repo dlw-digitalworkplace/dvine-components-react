@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.10.2",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.2",
+      "date": "Wed, 03 Jul 2019 13:58:58 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bugfix for leading and trailing spaces in resolve terms"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.1",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.1",
       "date": "Wed, 20 Feb 2019 07:38:16 GMT",

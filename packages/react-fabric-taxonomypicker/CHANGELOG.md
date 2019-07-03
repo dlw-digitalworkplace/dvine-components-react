@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Wed, 20 Feb 2019 07:38:16 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Jul 2019 13:58:58 GMT and should not be manually modified.
+
+## 1.10.2
+Wed, 03 Jul 2019 13:58:58 GMT
+
+### Patches
+
+- Bugfix for leading and trailing spaces in resolve terms
 
 ## 1.10.1
 Wed, 20 Feb 2019 07:38:16 GMT

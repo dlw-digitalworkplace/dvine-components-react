@@ -48,6 +48,21 @@ import { TaxonomyPicker } from "@dlw-digitalworkplace/react-fabric-taxonomypicke
 ```
 
 # Contributing
-
-This project uses [Rush](https://rushjs.io/) as a monorepo manager, which includes automatic changelog creation.
-Therefore, before submitting the pull request, **run `rush version` on your code and commit the generated change file**.
+ 1. Fork the repository to your local GitHub
+ 2. Clone the code
+ 3. Create a new branch for your hotfix or feature
+ 4. Run `npm install` in the root of the project to install all the dependencies
+ 5. Run `npm run build` to build the code
+ 6. Run `npm run start:nb` to run the sample app and test the components in the workbench
+ 7. Make the code changes
+ 8. Stage and commit your changes in the local branch
+ 9. Run `rush change` to generate the cange file
+ 10. Stage and commit the generated change file 
+ 11. Push all the changes to the remote branch
+ 12. Merge the branch created in step 3 to the master branch of your git repo
+ 13. Make sure the master branch builds (`npm run build`)
+ 14. Create a pull request to get your changes in the @dlw-digitalworkplace package
+ 
+ 
+   
+ 

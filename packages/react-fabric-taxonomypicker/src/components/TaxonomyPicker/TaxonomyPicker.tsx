@@ -7,10 +7,11 @@ import { Label } from "office-ui-fabric-react/lib/Label";
 import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 import * as Guid from "uuid/v4";
-import { replaceIllegalCharacters } from "../../utilities/invalidchars";
+
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
 import { getClassName } from "../../utilities";
+import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import { TaxonomyDialog } from "../TaxonomyDialog";
 import { TermPicker } from "../TermPicker";
 import { ITaxonomyPickerProps } from "./TaxonomyPicker.types";
@@ -239,7 +240,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
       !this.props.allowAddTerms ||
       !this.state.isLoaded ||
       !input ||
-      this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase())
+      this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase()) ||
+      input.replace(/\s/g, "").length === 0
     ) {
       return ValidationState.invalid;
     }

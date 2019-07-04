@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.10.3",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.3",
+      "date": "Thu, 04 Jul 2019 09:34:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix for adding empty terms to the term set"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.2",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.2",
       "date": "Wed, 03 Jul 2019 13:58:58 GMT",

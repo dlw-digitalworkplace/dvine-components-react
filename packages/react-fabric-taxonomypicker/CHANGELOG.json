@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.10.4",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.4",
+      "date": "Fri, 12 Jul 2019 13:58:42 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "1. Bugfix for adding terms in the picker dialog when not allowed 2. Bugfix for selecting root term in the picker dialog treeview"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.3",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.3",
       "date": "Thu, 04 Jul 2019 09:34:55 GMT",

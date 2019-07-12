@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Thu, 04 Jul 2019 09:34:55 GMT and should not be manually modified.
+This log was last generated on Fri, 12 Jul 2019 13:58:42 GMT and should not be manually modified.
+
+## 1.10.4
+Fri, 12 Jul 2019 13:58:42 GMT
+
+### Patches
+
+- 1. Bugfix for adding terms in the picker dialog when not allowed 2. Bugfix for selecting root term in the picker dialog treeview
 
 ## 1.10.3
 Thu, 04 Jul 2019 09:34:55 GMT

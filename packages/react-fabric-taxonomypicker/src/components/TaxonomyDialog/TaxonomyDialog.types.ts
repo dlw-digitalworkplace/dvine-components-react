@@ -15,6 +15,7 @@ export interface ITaxonomyDialogProps extends IBaseProps {
   showTranslatedLabels?: boolean;
   defaultLabelOnly?: boolean;
   exactMatchOnly?: boolean;
+  allowAddTerms?: boolean;
 
   isOpen?: boolean;
 

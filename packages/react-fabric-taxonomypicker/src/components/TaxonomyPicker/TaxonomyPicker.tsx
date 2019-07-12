@@ -136,6 +136,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               exactMatchOnly={this.props.exactMatchOnly}
               lcid={this.props.lcid}
               showTranslatedLabels={this.props.showTranslatedLabels}
+              allowAddTerms={this.props.allowAddTerms}
             />
           )}
         </div>

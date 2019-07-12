@@ -4,15 +4,16 @@ import { css } from "@uifabric/utilities/lib/css";
 import { DefaultButton, PrimaryButton } from "office-ui-fabric-react/lib/Button";
 import { Dialog, DialogFooter, DialogType, IDialog } from "office-ui-fabric-react/lib/Dialog";
 import * as React from "react";
-import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import * as Guid from "uuid/v4";
+
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
 import { getClassName } from "../../utilities";
+import { replaceIllegalCharacters } from "../../utilities/invalidchars";
+import { TermAdder } from "../TermAdder";
 import { TermPicker } from "../TermPicker";
 import { ITreeViewItem, TreeView } from "../TreeView";
 import { ITaxonomyDialogProps } from "./TaxonomyDialog.types";
-import { TermAdder } from "../TermAdder";
 
 const styles = require("./TaxonomyDialog.module.scss");
 
@@ -64,7 +65,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
           title: this.props.title || "Browse Term Set"
         }}
       >
-        {this.state.isOpenTermSet && <TermAdder addNewItemClick={this._onAddNewItemClick} />}
+        {this.state.isOpenTermSet && this.props.allowAddTerms && <TermAdder addNewItemClick={this._onAddNewItemClick} />}
         <div className={css(getClassName("TaxonomyDialog-Tree"), styles.taxonomyTree)}>
           <TreeView
             termSetId={this.props.termSetId}
@@ -247,6 +248,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
   @autobind
   private _onTreeItemInvoked(item: ITreeViewItem<ITerm>): void {
+    if (!item.value) { return; }
+
     this._addItem(item.value!);
   }
 

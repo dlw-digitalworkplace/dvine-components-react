@@ -1,13 +1,13 @@
 import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
 import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
-
 import { ITerm } from "../../model/ITerm";
 import { ITreeViewItem } from "../TreeView";
 
 export interface ITaxonomyDialogProps extends IBaseProps {
   title?: string;
   absoluteSiteUrl: string;
-  termSetId: string;
+  termSetId?: string;
+  termSetName?: string;
   rootTermId?: string;
   defaultSelectedItems?: ITerm[];
   pickerSuggestionsProps?: IBasePickerSuggestionsProps;
@@ -16,6 +16,7 @@ export interface ITaxonomyDialogProps extends IBaseProps {
   defaultLabelOnly?: boolean;
   exactMatchOnly?: boolean;
   allowAddTerms?: boolean;
+  hideDeprecatedTerms?: boolean;
 
   isOpen?: boolean;
 
@@ -44,9 +45,9 @@ export const testData: ITreeViewItem<ITerm | null> = {
             id: "089328a1-dc3a-480b-a0bb-a800c6afa7e9",
             name: "Term A 1",
             path: "Term A;Term A 1",
-            defaultLabel: "Term A 1"
+            defaultLabel: "Term A 1",
           },
-          isSelectable: true
+          isSelectable: true,
         },
         {
           id: "f29dffba-a335-4d68-8642-e4da4bc23ce9",
@@ -57,18 +58,18 @@ export const testData: ITreeViewItem<ITerm | null> = {
             id: "f29dffba-a335-4d68-8642-e4da4bc23ce9",
             name: "Term A 2",
             path: "Term A;Term A 2",
-            defaultLabel: "Term A 2"
+            defaultLabel: "Term A 2",
           },
-          isSelectable: true
-        }
+          isSelectable: true,
+        },
       ],
       value: {
         id: "ab763b5c-9d6f-4478-a798-072f5f7a6c8c",
         name: "Term A",
         path: "Term A",
-        defaultLabel: "Term A"
+        defaultLabel: "Term A",
       },
-      isSelectable: false
+      isSelectable: false,
     },
     {
       id: "b674db32-f58b-4b6a-b1d1-8f490a715467",
@@ -84,9 +85,9 @@ export const testData: ITreeViewItem<ITerm | null> = {
             id: "b7f6dc36-d980-4060-94cf-1cd15d5ba8ae",
             name: "Term B 1",
             path: "Term B;Term B 1",
-            defaultLabel: "Term B 1"
+            defaultLabel: "Term B 1",
           },
-          isSelectable: true
+          isSelectable: true,
         },
         {
           id: "22d13bf3-e495-4f04-bbb8-394779f6b498",
@@ -97,20 +98,20 @@ export const testData: ITreeViewItem<ITerm | null> = {
             id: "22d13bf3-e495-4f04-bbb8-394779f6b498",
             name: "Term B 2",
             path: "Term B;Term B 2",
-            defaultLabel: "Term B 2"
+            defaultLabel: "Term B 2",
           },
-          isSelectable: true
-        }
+          isSelectable: true,
+        },
       ],
       value: {
         id: "b674db32-f58b-4b6a-b1d1-8f490a715467",
         name: "Term B",
         path: "Term B",
-        defaultLabel: "Term B"
+        defaultLabel: "Term B",
       },
-      isSelectable: true
-    }
+      isSelectable: true,
+    },
   ],
   value: null,
-  isSelectable: false
+  isSelectable: false,
 };

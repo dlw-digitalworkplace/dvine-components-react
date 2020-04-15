@@ -7,7 +7,6 @@ import { Label } from "office-ui-fabric-react/lib/Label";
 import { IBasePicker, ValidationState } from "office-ui-fabric-react/lib/Pickers";
 import * as React from "react";
 import * as Guid from "uuid/v4";
-
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
 import { getClassName } from "../../utilities";
@@ -35,11 +34,11 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     pickerSuggestionsProps: {
       suggestionsHeaderText: "Suggested Terms",
       noResultsFoundText: "No results found",
-      loadingText: "Loading..."
+      loadingText: "Loading...",
     },
     iconProps: {
-      iconName: "Tag"
-    }
+      iconName: "Tag",
+    },
   };
 
   private termPicker = createRef<TermPicker>();
@@ -53,7 +52,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     this.state = {
       items: items,
       isPopupOpen: false,
-      isLoaded: false
+      isLoaded: false,
     };
   }
 
@@ -80,7 +79,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
     if (newItems) {
       this.setState({
-        items: newItems
+        items: newItems,
       });
     }
   }
@@ -109,7 +108,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
                 ? "No results found, press Enter to create it"
                 : "No results found",
               suggestionsHeaderText: "Suggested Terms",
-              loadingText: "Loading..."
+              loadingText: "Loading...",
             }}
           />
 
@@ -127,6 +126,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               absoluteSiteUrl={this.props.absoluteSiteUrl}
               defaultSelectedItems={this.state.items}
               termSetId={this.props.termSetId}
+              termSetName={this.props.termSetName}
               rootTermId={this.props.rootTermId}
               isOpen={this.state.isPopupOpen}
               onDismiss={this._closeDialog}
@@ -137,6 +137,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               lcid={this.props.lcid}
               showTranslatedLabels={this.props.showTranslatedLabels}
               allowAddTerms={this.props.allowAddTerms}
+              hideDeprecatedTerms={this.props.hideDeprecatedTerms}
             />
           )}
         </div>
@@ -149,7 +150,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId,
-      rootTermId: this.props.rootTermId
+      termSetName: this.props.termSetName,
+      rootTermId: this.props.rootTermId,
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
@@ -160,16 +162,17 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
       this.props.exactMatchOnly,
       this.props.showTranslatedLabels,
       10,
+      true,
       true
     );
 
     const filteredItems = matchingTerms.filter(
-      item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
+      (item) => !(selectedItems || []).some((selectedItem) => selectedItem.id === item.id)
     );
 
     if (!this.state.isLoaded) {
       this.setState({
-        isLoaded: true
+        isLoaded: true,
       });
     }
 
@@ -183,7 +186,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     } else {
       this.setState(
         {
-          items: items || []
+          items: items || [],
         },
         () => this._onChange(items)
       );
@@ -198,7 +201,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   }
 
   private _getRequestedTerm(input: string) {
-    const requestedTerms = this.requestedTerms.filter(rt => {
+    const requestedTerms = this.requestedTerms.filter((rt) => {
       return rt.label === input;
     });
     const requestedTerm = requestedTerms.length > 0 ? requestedTerms[0] : null;
@@ -226,10 +229,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
       path: input,
       properties: {
         isNew: true,
-        eTag: Math.random()
-          .toString(36)
-          .substr(2, 8)
-      }
+        eTag: Math.random().toString(36).substr(2, 8),
+      },
     } as any;
 
     return genericItem;
@@ -241,7 +242,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
       !this.props.allowAddTerms ||
       !this.state.isLoaded ||
       !input ||
-      this.state.items.some(item => item.name.toLowerCase() === input.toLowerCase()) ||
+      this.state.items.some((item) => item.name.toLowerCase() === input.toLowerCase()) ||
       input.replace(/\s/g, "").length === 0
     ) {
       return ValidationState.invalid;
@@ -265,7 +266,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
         items[termIndex].id = result.id;
         that.setState({
-          items: items
+          items: items,
         });
 
         return ValidationState.valid;
@@ -280,14 +281,14 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   @autobind
   private _openDialog(): void {
     this.setState({
-      isPopupOpen: true
+      isPopupOpen: true,
     });
   }
 
   @autobind
   private _closeDialog(): void {
     this.setState({
-      isPopupOpen: false
+      isPopupOpen: false,
     });
   }
 
@@ -295,7 +296,8 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId,
-      rootTermId: this.props.rootTermId
+      termSetName: this.props.termSetName,
+      rootTermId: this.props.rootTermId,
     };
 
     // Due to the generator function, the create term function can be called multiple times, make sure to always use the same term id
@@ -317,9 +319,12 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
   private _makeMeLookSync(fn: any) {
     const iterator = fn();
-    const loop = result => {
+    const loop = (result) => {
       !result.done &&
-        result.value.then(res => loop(iterator.next(res)), err => loop(iterator.throw(err)));
+        result.value.then(
+          (res) => loop(iterator.next(res)),
+          (err) => loop(iterator.throw(err))
+        );
     };
 
     loop(iterator.next());

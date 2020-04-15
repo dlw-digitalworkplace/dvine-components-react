@@ -3,36 +3,39 @@ import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneToggle
+  PropertyPaneToggle,
 } from "@microsoft/sp-webpart-base";
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as strings from "TaxonomyPickerDemoWebPartStrings";
-
 import { ITaxonomyPickerDemoProps } from "./components/ITaxonomyPickerDemoProps";
 import TaxonomyPickerDemo from "./components/TaxonomyPickerDemo";
 
 export interface ITaxonomyPickerDemoWebPartProps {
   termSetId: string;
+  termSetName: string;
   rootTermId: string;
   itemLimit: number;
   lcid: number;
   showTranslatedLabels: boolean;
+  hideDeprecatedTerms: boolean;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
   ITaxonomyPickerDemoWebPartProps
-  > {
+> {
   public render(): void {
     const element: React.ReactElement<ITaxonomyPickerDemoProps> = React.createElement(
       TaxonomyPickerDemo,
       {
         absoluteSiteUrl: this.context.pageContext.site.absoluteUrl,
         termSetId: this.properties.termSetId,
+        termSetName: this.properties.termSetName,
         rootTermId: this.properties.rootTermId,
         itemLimit: this.properties.itemLimit,
         lcid: this.properties.lcid,
-        showTranslatedLabels: this.properties.showTranslatedLabels
+        showTranslatedLabels: this.properties.showTranslatedLabels,
+        hideDeprecatedTerms: this.properties.hideDeprecatedTerms,
       }
     );
 
@@ -48,33 +51,40 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField("termSetId", {
-                  label: strings.TermSetIdFieldLabel
+                  label: strings.TermSetIdFieldLabel,
+                }),
+                PropertyPaneTextField("termSetName", {
+                  label: strings.TermSetNameFieldLabel,
                 }),
                 PropertyPaneTextField("rootTermId", {
-                  label: strings.RootTermIdFieldLabel
+                  label: strings.RootTermIdFieldLabel,
                 }),
                 PropertyPaneTextField("itemLimit", {
-                  label: strings.ItemLimitFieldLabel
+                  label: strings.ItemLimitFieldLabel,
                 }),
                 PropertyPaneTextField("lcid", {
-                  label: strings.LcidFieldLabel
+                  label: strings.LcidFieldLabel,
                 }),
                 PropertyPaneToggle("showTranslatedLabels", {
                   label: strings.ShowTranslatedLabelsLabel,
-                  checked: this.properties.showTranslatedLabels
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                  checked: this.properties.showTranslatedLabels,
+                }),
+                PropertyPaneToggle("hideDeprecatedTerms", {
+                  label: strings.HideDeprecatedTermsLabel,
+                  checked: this.properties.hideDeprecatedTerms,
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }

@@ -1,13 +1,12 @@
 import {
   ITaxonomyPickerProps,
-  TaxonomyPicker
+  TaxonomyPicker,
 } from "@dlw-digitalworkplace/react-fabric-taxonomypicker";
 import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
 import { SPComponentLoader } from "@microsoft/sp-loader";
 import * as React from "react";
 
-export interface ITaxonomyPickerLoaderProps extends ITaxonomyPickerProps {
-}
+export interface ITaxonomyPickerLoaderProps extends ITaxonomyPickerProps {}
 
 export interface ITaxonomyPickerLoaderState {
   loadingScripts: boolean;
@@ -23,7 +22,7 @@ export class TaxonomyPickerLoader extends React.Component<
 
     this.state = {
       loadingScripts: true,
-      errors: []
+      errors: [],
     };
   }
 
@@ -39,8 +38,8 @@ export class TaxonomyPickerLoader extends React.Component<
         errors: [
           ...this.state.errors,
           // tslint:disable-next-line:max-line-length
-          "You are on localhost mode (EnvironmentType.Local), be sure you disable termSetGuid and enable defaultOptions configuration in PropertyPaneTaxonomyPicker."
-        ]
+          "You are on localhost mode (EnvironmentType.Local), be sure you disable termSetGuid and enable defaultOptions configuration in PropertyPaneTaxonomyPicker.",
+        ],
       });
     }
   }
@@ -61,41 +60,39 @@ export class TaxonomyPickerLoader extends React.Component<
 
     try {
       SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/init.js", {
-        globalExportsName: "$_global_init"
+        globalExportsName: "$_global_init",
       })
         .then(
           (): Promise<{}> => {
             return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/MicrosoftAjax.js", {
-              globalExportsName: "Sys"
+              globalExportsName: "Sys",
             });
           }
         )
         .then(
           (): Promise<{}> => {
             return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.Runtime.js", {
-              globalExportsName: "SP"
+              globalExportsName: "SP",
             });
           }
         )
         .then(
           (): Promise<{}> => {
             return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.js", {
-              globalExportsName: "SP"
+              globalExportsName: "SP",
             });
           }
         )
         .then(
           (): Promise<{}> => {
             return SPComponentLoader.loadScript(siteColUrl + "/_layouts/15/SP.taxonomy.js", {
-              globalExportsName: "SP"
+              globalExportsName: "SP",
             });
           }
         )
-        .then(
-          (): void => {
-            this.setState({ loadingScripts: false });
-          }
-        )
+        .then((): void => {
+          this.setState({ loadingScripts: false });
+        })
         .catch((reason: any) => {
           this.setState({ loadingScripts: false, errors: [...this.state.errors, reason] });
         });

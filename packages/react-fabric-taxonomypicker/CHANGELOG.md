@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Fri, 12 Jul 2019 13:58:42 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Apr 2020 12:44:58 GMT and should not be manually modified.
+
+## 1.11.0
+Wed, 15 Apr 2020 12:44:58 GMT
+
+### Minor changes
+
+- Added an option to hide deprecated terms in the term tree
 
 ## 1.10.4
 Fri, 12 Jul 2019 13:58:42 GMT

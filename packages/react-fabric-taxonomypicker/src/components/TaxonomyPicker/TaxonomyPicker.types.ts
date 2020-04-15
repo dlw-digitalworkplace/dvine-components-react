@@ -1,19 +1,20 @@
 import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
 import { IIconProps } from "office-ui-fabric-react/lib/Icon";
 import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
-
 import { ITerm } from "../../model/ITerm";
 
 export interface ITaxonomyPickerProps extends IBaseProps {
   absoluteSiteUrl: string;
   title?: string;
   showTranslatedLabels?: boolean;
+  hideDeprecatedTerms?: boolean;
   label?: string;
   lcid?: number;
   required?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
-  termSetId: string;
+  termSetId?: string;
+  termSetName?: string;
   rootTermId?: string;
   itemLimit?: number;
   onChange?: (newValue?: ITerm[]) => void;

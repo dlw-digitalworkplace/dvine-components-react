@@ -11,7 +11,8 @@ export interface ITerm {
 export interface ITermProperties {
   isNew?: boolean;
   eTag?: string;
-  isSelectable?: boolean;
+  isAvailable?: boolean;
+  isDeprecated?: boolean;
   children?: ITerm[];
   parentId?: string | null;
 }

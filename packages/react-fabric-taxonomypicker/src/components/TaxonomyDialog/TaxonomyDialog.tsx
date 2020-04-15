@@ -5,7 +5,6 @@ import { DefaultButton, PrimaryButton } from "office-ui-fabric-react/lib/Button"
 import { Dialog, DialogFooter, DialogType, IDialog } from "office-ui-fabric-react/lib/Dialog";
 import * as React from "react";
 import * as Guid from "uuid/v4";
-
 import { ITaxonomyApiContext, TaxonomyApi } from "../../api/TaxonomyApi";
 import { ITerm } from "../../model/ITerm";
 import { getClassName } from "../../utilities";
@@ -32,8 +31,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     pickerSuggestionsProps: {
       suggestionsHeaderText: "Suggested Terms",
       noResultsFoundText: "No results found",
-      loadingText: "Loading..."
-    }
+      loadingText: "Loading...",
+    },
   };
 
   constructor(props: ITaxonomyDialogProps) {
@@ -43,7 +42,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
       selectedItems: props.defaultSelectedItems || [],
       selectedTreeItem: null,
       itemAdding: false,
-      isOpenTermSet: false
+      isOpenTermSet: false,
     };
   }
 
@@ -57,18 +56,21 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         hidden={!this.props.isOpen}
         modalProps={{
           isBlocking: true,
-          className: styles.dialog
+          className: styles.dialog,
         }}
         onDismiss={this._onDismiss}
         dialogContentProps={{
           type: DialogType.close,
-          title: this.props.title || "Browse Term Set"
+          title: this.props.title || "Browse Term Set",
         }}
       >
-        {this.state.isOpenTermSet && this.props.allowAddTerms && <TermAdder addNewItemClick={this._onAddNewItemClick} />}
+        {this.state.isOpenTermSet && this.props.allowAddTerms && (
+          <TermAdder addNewItemClick={this._onAddNewItemClick} />
+        )}
         <div className={css(getClassName("TaxonomyDialog-Tree"), styles.taxonomyTree)}>
           <TreeView
             termSetId={this.props.termSetId}
+            termSetName={this.props.termSetName}
             selectedItems={this.state.selectedItems}
             isOpenTermSet={this.state.isOpenTermSet}
             data={this.state.treeViewData}
@@ -107,31 +109,32 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId,
-      rootTermId: this.props.rootTermId
+      termSetName: this.props.termSetName,
+      rootTermId: this.props.rootTermId,
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
-    const termTree = await taxonomyApi.getTermTree(this.props.lcid);
-    const rootTreeTerms = termTree.terms.filter(t => !!t.id && t.id === this.props.rootTermId);
+    const termTree = await taxonomyApi.getTermTree(this.props.lcid, this.props.hideDeprecatedTerms);
+    const rootTreeTerms = termTree.terms.filter((t) => !!t.id && t.id === this.props.rootTermId);
     const rootTreeTerm = rootTreeTerms.length > 0 ? rootTreeTerms[0] : null;
 
     const children =
       rootTreeTerm && rootTreeTerm.properties && rootTreeTerm.properties.children
-        ? rootTreeTerm.properties.children.map(this._termToTreeViewItem)
-        : termTree.terms.map(this._termToTreeViewItem);
+        ? rootTreeTerm.properties.children.map(this._termToTreeViewItem).filter((item) => !!item)
+        : termTree.terms.map(this._termToTreeViewItem).filter((item) => !!item);
 
     this.setState({
       treeViewData: {
-        id: this.props.termSetId,
+        id: this.props.termSetName || this.props.termSetId!,
         label: termTree.termSetName,
         defaultLabel: termTree.termSetName,
         children,
         value: null,
         expanded: true,
-        isSelectable: termTree.isOpenTermSet
+        isSelectable: termTree.isOpenTermSet,
       },
       itemAdding,
-      isOpenTermSet: termTree.isOpenTermSet
+      isOpenTermSet: termTree.isOpenTermSet,
     });
   }
 
@@ -145,13 +148,13 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         id: item.id,
         name: item.name,
         path: item.path,
-        defaultLabel: item.defaultLabel
+        defaultLabel: item.defaultLabel,
       },
       children:
         item.properties && item.properties.children
-          ? item.properties.children.map(this._termToTreeViewItem)
+          ? item.properties.children.map(this._termToTreeViewItem).filter((it) => !!it)
           : [],
-      isSelectable: item.properties && item.properties.isSelectable
+      isSelectable: item.properties && item.properties.isAvailable && !item.properties.isDeprecated,
     };
 
     treeViewItem.expanded = this._isExpanded(treeViewItem);
@@ -195,7 +198,8 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId,
-      rootTermId: this.props.rootTermId
+      termSetName: this.props.termSetName,
+      rootTermId: this.props.rootTermId,
     };
 
     const taxonomyApi = new TaxonomyApi(apiContext);
@@ -206,11 +210,12 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
       this.props.exactMatchOnly,
       this.props.showTranslatedLabels,
       10,
+      true,
       true
     );
 
     return matchingTerms.filter(
-      item => !(selectedItems || []).some(selectedItem => selectedItem.id === item.id)
+      (item) => !(selectedItems || []).some((selectedItem) => selectedItem.id === item.id)
     );
   }
 
@@ -219,7 +224,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const newItems = [...(items || [])];
 
     this.setState({
-      selectedItems: newItems
+      selectedItems: newItems,
     });
   }
 
@@ -235,7 +240,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   @autobind
   private _onTreeSelectionChanged(value: ITerm): void {
     this.setState({
-      selectedTreeItem: value
+      selectedTreeItem: value,
     });
   }
 
@@ -248,7 +253,9 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
 
   @autobind
   private _onTreeItemInvoked(item: ITreeViewItem<ITerm>): void {
-    if (!item.value) { return; }
+    if (!item.value) {
+      return;
+    }
 
     this._addItem(item.value!);
   }
@@ -288,7 +295,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     // Check if empty -> cancel if so
     if (!this.state.newItemLabel) {
       this.setState({
-        itemAdding: false
+        itemAdding: false,
       });
       return Promise.resolve();
     } else {
@@ -302,12 +309,18 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
     const apiContext: ITaxonomyApiContext = {
       absoluteSiteUrl: this.props.absoluteSiteUrl,
       termSetId: this.props.termSetId,
-      rootTermId: this.props.rootTermId
+      termSetName: this.props.termSetName,
+      rootTermId: this.props.rootTermId,
     };
     const taxonomyApi = new TaxonomyApi(apiContext);
-    this.state.selectedTreeItem ?
-      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), this.props.lcid, this.state.selectedTreeItem) :
-      await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), this.props.lcid);
+    this.state.selectedTreeItem
+      ? await taxonomyApi.createTerm(
+          this.state.newItemLabel!,
+          Guid(),
+          this.props.lcid,
+          this.state.selectedTreeItem
+        )
+      : await taxonomyApi.createTerm(this.state.newItemLabel!, Guid(), this.props.lcid);
     await this._loadTermSetData();
 
     if (this.state.selectedTreeItem) {
@@ -320,7 +333,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
   @autobind
   private _onNewItemValueChanged(termLabel: string): void {
     this.setState({
-      newItemLabel: termLabel
+      newItemLabel: termLabel,
     });
   }
 }

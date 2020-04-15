@@ -1,11 +1,11 @@
 import * as Guid from "uuid/v4";
-
 import { ITerm } from "../../model/ITerm";
 import { ITermData } from "./TaxonomyApi.types";
 
 export interface ITaxonomyApiContext {
   absoluteSiteUrl: string;
-  termSetId: string;
+  termSetId?: string;
+  termSetName?: string;
   rootTermId?: string;
 }
 
@@ -20,7 +20,11 @@ export class TaxonomyApi {
     this.cacheKey = this._getCacheKey();
   }
 
-  public async getTerms(lcid: number = 1033, noCache: boolean = false, showTranslatedLabels: boolean = false): Promise<ITerm[]> {
+  public async getTerms(
+    lcid: number = 1033,
+    noCache: boolean = false,
+    showTranslatedLabels: boolean = false
+  ): Promise<ITerm[]> {
     if (!noCache) {
       const cachedData = TaxonomyApi.CACHEDATA[this.cacheKey];
 
@@ -39,8 +43,16 @@ export class TaxonomyApi {
     return termData;
   }
 
-  public async findTerms(filter: string, lcid: number = 1033, defaultLabelOnly?: boolean,
-    exactMatch?: boolean, showTranslatedLabels?: boolean, resultSize?: number, trimUnavailable?: boolean): Promise<ITerm[]> {
+  public async findTerms(
+    filter: string,
+    lcid: number = 1033,
+    defaultLabelOnly?: boolean,
+    exactMatch?: boolean,
+    showTranslatedLabels?: boolean,
+    resultSize?: number,
+    trimUnavailable?: boolean,
+    trimDeprecated?: boolean
+  ): Promise<ITerm[]> {
     if (!filter || filter.length === 0) {
       return [];
     }
@@ -50,19 +62,26 @@ export class TaxonomyApi {
     }
 
     const allTerms = await this.getTerms(lcid, false, showTranslatedLabels);
-    let matchingTerms: ITerm[] = allTerms.filter(term => {
+    let matchingTerms: ITerm[] = allTerms.filter((term) => {
       let isMatch = true;
       if (exactMatch) {
-        isMatch = isMatch && (term.name === filter || (!defaultLabelOnly && !!term.labels && term.labels.some(l => l === filter)));
+        isMatch =
+          isMatch &&
+          (term.name === filter ||
+            (!defaultLabelOnly && !!term.labels && term.labels.some((l) => l === filter)));
       } else {
         const filterRegexp = new RegExp(filter, "i");
 
-        isMatch = isMatch && (filterRegexp.test(term.name) || (!defaultLabelOnly && !!term.labels && term.labels.some(
-          l => filterRegexp.test(l)
-        )));
+        isMatch =
+          isMatch &&
+          (filterRegexp.test(term.name) ||
+            (!defaultLabelOnly && !!term.labels && term.labels.some((l) => filterRegexp.test(l))));
       }
 
-      isMatch = isMatch && (!trimUnavailable || !!term.properties!.isSelectable);
+      isMatch =
+        isMatch &&
+        (!trimUnavailable || !!term.properties!.isAvailable) &&
+        (!trimDeprecated || !term.properties!.isDeprecated);
 
       return isMatch;
     });
@@ -74,43 +93,72 @@ export class TaxonomyApi {
     return matchingTerms;
   }
 
-  public async getTermTree(lcid: number = 1033): Promise<{ termSetName: string; isOpenTermSet: boolean; terms: ITerm[] }> {
+  public async getTermTree(
+    lcid: number = 1033,
+    hideDeprecatedTerms?: boolean
+  ): Promise<{ termSetName: string; isOpenTermSet: boolean; terms: ITerm[] }> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
-    const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
+    let termSet: SP.Taxonomy.TermSet;
 
-    this.spContext.load(termSet);
-    await this.awaitableExecuteQuery(this.spContext);
+    if (this.context.termSetName) {
+      const termSets = termStore.getTermSetsByName(this.context.termSetName!, lcid);
+      this.spContext.load(termSets);
+      await this.awaitableExecuteQuery(this.spContext);
 
-    const terms = await this.getTerms(lcid);
+      termSet = termSets.itemAt(0);
+    } else {
+      termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId!));
+      this.spContext.load(termSet);
+      await this.awaitableExecuteQuery(this.spContext);
+    }
+
+    const terms = (await this.getTerms(lcid, false, false)).filter(
+      (term) => !hideDeprecatedTerms || !term.properties!.isDeprecated
+    );
     const isOpenTermSet = termSet.get_isOpenForTermCreation();
-    const termData: ITermData[] = terms.map(term => ({
+    const termData: ITermData[] = terms.map((term) => ({
       id: term.id,
       name: term.name,
       path: term.path,
       defaultLabel: term.defaultLabel,
-      isSelectable: term.properties!.isSelectable || false,
+      isAvailable: term.properties!.isAvailable || false,
+      isDeprecated: term.properties!.isDeprecated || false,
       parentId: term.properties!.parentId || null,
       sortOrder: term.sortOrder,
-      children: []
+      children: [],
     }));
 
     const flatData = this._unflatten(termData);
 
     return {
-      termSetName: termSet.get_name(), isOpenTermSet: isOpenTermSet, terms: flatData.map(
-        item => this._termDataToTerm(item)
-      )
+      termSetName: termSet.get_name(),
+      isOpenTermSet: isOpenTermSet,
+      terms: flatData.map((item) => this._termDataToTerm(item)),
     };
   }
 
-  public async createTerm(name: string, newTermId: Guid, lcid: number = 1033, parent?: ITerm | null): Promise<ITerm> {
+  public async createTerm(
+    name: string,
+    newTermId: Guid,
+    lcid: number = 1033,
+    parent?: ITerm | null
+  ): Promise<ITerm> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
-    const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
+    let termSet: SP.Taxonomy.TermSet;
 
-    this.spContext.load(termSet);
-    await this.awaitableExecuteQuery(this.spContext);
+    if (this.context.termSetName) {
+      const termSets = termStore.getTermSetsByName(this.context.termSetName!, lcid);
+      this.spContext.load(termSets);
+      await this.awaitableExecuteQuery(this.spContext);
+
+      termSet = termSets.itemAt(0);
+    } else {
+      termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId!));
+      this.spContext.load(termSet);
+      await this.awaitableExecuteQuery(this.spContext);
+    }
 
     let term: SP.Taxonomy.Term | null = null;
     let parentTerm: SP.Taxonomy.Term | null = null;
@@ -125,21 +173,28 @@ export class TaxonomyApi {
     }
 
     // Create the term
-    const newTerm = !parentTerm ?
-      (!!term ? term.createTerm(name, lcid, newTermId) : termSet.createTerm(name, lcid, newTermId)) :
-      parentTerm.createTerm(name, lcid, newTermId);
+    const newTerm = !parentTerm
+      ? !!term
+        ? term.createTerm(name, lcid, newTermId)
+        : termSet.createTerm(name, lcid, newTermId)
+      : parentTerm.createTerm(name, lcid, newTermId);
 
     this.spContext.load(newTerm);
     await this.awaitableExecuteQuery(this.spContext);
 
     const newTermInfo: ITerm = {
-      id: newTerm
-        .get_id()
-        .toString(), name: newTerm.get_name(), defaultLabel: newTerm.get_name(), path: newTerm.get_pathOfTerm(), properties: {
-          isSelectable: true, parentId: !parentTerm ? (!!term ? this.context.rootTermId : undefined) : parentTerm
-            .get_id()
-            .toString()
-        }
+      id: newTerm.get_id().toString(),
+      name: newTerm.get_name(),
+      defaultLabel: newTerm.get_name(),
+      path: newTerm.get_pathOfTerm(),
+      properties: {
+        isAvailable: true,
+        parentId: !parentTerm
+          ? !!term
+            ? this.context.rootTermId
+            : undefined
+          : parentTerm.get_id().toString(),
+      },
     };
 
     // Update the cache in the correct node
@@ -163,21 +218,36 @@ export class TaxonomyApi {
     );
   }
 
-  private async _getTermsInteral(lcid: number = 1033, showTranslatedLabels: boolean = false): Promise<ITerm[]> {
+  private async _getTermsInteral(
+    lcid: number = 1033,
+    showTranslatedLabels: boolean = false
+  ): Promise<ITerm[]> {
     const taxonomySession = SP.Taxonomy.TaxonomySession.getTaxonomySession(this.spContext);
     const termStore = taxonomySession.getDefaultSiteCollectionTermStore();
-    const termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId));
+
+    let termSet: SP.Taxonomy.TermSet;
+
+    if (this.context.termSetName) {
+      const termSets = termStore.getTermSetsByName(this.context.termSetName!, lcid);
+      this.spContext.load(termSets);
+      await this.awaitableExecuteQuery(this.spContext);
+
+      termSet = termSets.itemAt(0);
+    } else {
+      termSet = termStore.getTermSet(new SP.Guid(this.context.termSetId!));
+      this.spContext.load(termSet);
+      await this.awaitableExecuteQuery(this.spContext);
+    }
 
     let rootTerm: SP.Taxonomy.Term | null = null;
 
     if (!!this.context.rootTermId) {
-      rootTerm = await termStore.getTermInTermSet(new SP.Guid(this.context.termSetId), new SP.Guid(this.context.rootTermId));
+      rootTerm = termStore.getTermInTermSet(termSet.get_id(), new SP.Guid(this.context.rootTermId));
       this.spContext.load(rootTerm);
     }
 
     const matchingTerms = termSet.getAllTerms();
 
-    this.spContext.load(termSet);
     this.spContext.load(matchingTerms);
     this.spContext.load(matchingTerms, "Include(Labels, Parent, Parent.Id, CustomSortOrder)");
     await this.awaitableExecuteQuery(this.spContext);
@@ -197,10 +267,7 @@ export class TaxonomyApi {
 
       let parentId: string | null = null;
       if (!currentTerm.get_isRoot()) {
-        parentId = currentTerm
-          .get_parent()
-          .get_id()
-          .toString();
+        parentId = currentTerm.get_parent().get_id().toString();
       }
 
       const termLabels = currentTerm.get_labels();
@@ -229,11 +296,10 @@ export class TaxonomyApi {
         labels: labels,
         path: currentTerm.get_pathOfTerm(),
         properties: {
-          isSelectable:
-            currentTerm.get_isAvailableForTagging() &&
-            !currentTerm.get_isDeprecated(),
-          parentId: parentId
-        }
+          isAvailable: currentTerm.get_isAvailableForTagging(),
+          isDeprecated: currentTerm.get_isDeprecated(),
+          parentId: parentId,
+        },
       });
     }
 
@@ -241,16 +307,22 @@ export class TaxonomyApi {
   }
 
   private _getCacheKey(): string {
-    return !!this.context.rootTermId ? `${this.context.termSetId}_${this.context.rootTermId}` : this.context.termSetId;
+    const termSetPart = this.context.termSetName || this.context.termSetId!;
+
+    return !!this.context.rootTermId ? `${termSetPart}_${this.context.rootTermId}` : termSetPart;
   }
 
-  private _termDataToTerm(termData: ITermData) {
+  private _termDataToTerm(termData: ITermData): ITerm {
     return {
-      id: termData.id, name: termData.name, path: termData.path, defaultLabel: termData.defaultLabel, properties: {
-        isSelectable: termData.isSelectable, children: termData.children.map(
-          item => this._termDataToTerm(item)
-        )
-      }
+      id: termData.id,
+      name: termData.name,
+      path: termData.path,
+      defaultLabel: termData.defaultLabel,
+      properties: {
+        isAvailable: termData.isAvailable,
+        isDeprecated: termData.isDeprecated,
+        children: termData.children.map((item) => this._termDataToTerm(item)),
+      },
     };
   }
 
@@ -275,7 +347,9 @@ export class TaxonomyApi {
         mappedElem = mappedArr[id];
         // If the element is not at the root level, add it to its parent array of children.
         if (mappedElem.parentId) {
-          mappedArr[mappedElem.parentId].children.push(mappedElem);
+          if (mappedArr[mappedElem.parentId]) {
+            mappedArr[mappedElem.parentId].children.push(mappedElem);
+          }
         } else {
           // If the element is at the root level, add it to first level elements array.
           tree.push(mappedElem);

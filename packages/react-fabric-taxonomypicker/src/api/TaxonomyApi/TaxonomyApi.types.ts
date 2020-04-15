@@ -3,7 +3,8 @@ export interface ITermData {
   name: string;
   defaultLabel: string;
   path: string;
-  isSelectable: boolean;
+  isAvailable: boolean;
+  isDeprecated?: boolean;
   parentId: string | null;
   sortOrder?: string;
   children: ITermData[];

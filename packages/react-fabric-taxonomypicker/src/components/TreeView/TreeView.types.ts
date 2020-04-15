@@ -2,7 +2,8 @@ import { ITerm } from "src/model/ITerm";
 
 export interface ITreeViewProps<T> {
   data?: ITreeViewItem<T>;
-  termSetId: string;
+  termSetId?: string;
+  termSetName?: string;
   itemAdding: boolean;
   isOpenTermSet: boolean;
   selectedItems?: ITerm[];

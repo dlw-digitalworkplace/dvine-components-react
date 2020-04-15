@@ -47,5 +47,5 @@ export default class TaxonomyPickerDemo extends React.Component<
         console.dir(this.state.selectedTerms);
       }
     );
-  };
+  }
 }

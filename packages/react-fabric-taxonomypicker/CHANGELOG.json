@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.11.0",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.11.0",
+      "date": "Wed, 15 Apr 2020 12:44:58 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added an option to hide deprecated terms in the term tree"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.4",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.10.4",
       "date": "Fri, 12 Jul 2019 13:58:42 GMT",

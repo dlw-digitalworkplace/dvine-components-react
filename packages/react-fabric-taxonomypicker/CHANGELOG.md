@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Wed, 15 Apr 2020 12:44:58 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Apr 2020 13:10:24 GMT and should not be manually modified.
+
+## 1.11.1
+Wed, 15 Apr 2020 13:10:24 GMT
+
+### Patches
+
+- Reverted peerdependency change
 
 ## 1.11.0
 Wed, 15 Apr 2020 12:44:58 GMT

@@ -8,6 +8,7 @@ declare interface ITaxonomyPickerDemoWebPartStrings {
   LcidFieldLabel: string;
   ShowTranslatedLabelsLabel: string;
   HideDeprecatedTermsLabel: string;
+  AllowAddTermsLabel: string;
 }
 
 declare module "TaxonomyPickerDemoWebPartStrings" {

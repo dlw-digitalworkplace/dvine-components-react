@@ -9,5 +9,6 @@ define([], function () {
     LcidFieldLabel: "Locale id",
     ShowTranslatedLabelsLabel: "Search translated labels",
     HideDeprecatedTermsLabel: "Hide deprecated Terms",
+    AllowAddTermsLabel: "Allow adding of Terms",
   };
 });

@@ -225,6 +225,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
 
     const genericItem = {
       id: requestedTerm ? requestedTerm.id : undefined,
+      defaultLabel: input,
       name: input,
       path: input,
       properties: {

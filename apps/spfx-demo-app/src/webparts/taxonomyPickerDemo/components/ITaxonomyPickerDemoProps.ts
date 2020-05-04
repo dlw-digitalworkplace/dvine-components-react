@@ -7,4 +7,5 @@ export interface ITaxonomyPickerDemoProps {
   lcid: number;
   showTranslatedLabels: boolean;
   hideDeprecatedTerms: boolean;
+  allowAddTerms: boolean;
 }

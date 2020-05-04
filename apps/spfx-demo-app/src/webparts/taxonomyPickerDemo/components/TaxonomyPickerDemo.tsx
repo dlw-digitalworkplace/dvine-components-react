@@ -14,6 +14,8 @@ export default class TaxonomyPickerDemo extends React.Component<
     this.state = {
       selectedTerms: [],
     };
+
+    this._onChange = this._onChange.bind(this);
   }
 
   public render(): React.ReactElement<ITaxonomyPickerDemoProps> {
@@ -23,11 +25,10 @@ export default class TaxonomyPickerDemo extends React.Component<
           title="Select your demo data"
           absoluteSiteUrl={this.props.absoluteSiteUrl}
           label="Demo picker"
-          termSetName={this.props.termSetName}
           termSetId={this.props.termSetId}
           rootTermId={this.props.rootTermId}
           itemLimit={this.props.itemLimit}
-          allowAddTerms={false}
+          allowAddTerms={this.props.allowAddTerms}
           lcid={this.props.lcid}
           showTranslatedLabels={this.props.showTranslatedLabels}
           hideDeprecatedTerms={this.props.hideDeprecatedTerms}
@@ -38,7 +39,7 @@ export default class TaxonomyPickerDemo extends React.Component<
     );
   }
 
-  private _onChange = (newValue?: ITerm[]): void => {
+  private _onChange(newValue?: ITerm[]) {
     this.setState(
       {
         selectedTerms: newValue,

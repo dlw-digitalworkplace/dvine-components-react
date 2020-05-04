@@ -19,6 +19,7 @@ export interface ITaxonomyPickerDemoWebPartProps {
   lcid: number;
   showTranslatedLabels: boolean;
   hideDeprecatedTerms: boolean;
+  allowAddTerms: boolean;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -36,6 +37,7 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
         lcid: this.properties.lcid,
         showTranslatedLabels: this.properties.showTranslatedLabels,
         hideDeprecatedTerms: this.properties.hideDeprecatedTerms,
+        allowAddTerms: this.properties.allowAddTerms,
       }
     );
 
@@ -79,6 +81,10 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
                 PropertyPaneToggle("hideDeprecatedTerms", {
                   label: strings.HideDeprecatedTermsLabel,
                   checked: this.properties.hideDeprecatedTerms,
+                }),
+                PropertyPaneToggle("allowAddTerms", {
+                  label: strings.AllowAddTermsLabel,
+                  checked: this.properties.allowAddTerms,
                 }),
               ],
             },

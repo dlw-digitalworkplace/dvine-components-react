@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Wed, 15 Apr 2020 13:10:24 GMT and should not be manually modified.
+This log was last generated on Mon, 04 May 2020 11:41:36 GMT and should not be manually modified.
+
+## 1.11.2
+Mon, 04 May 2020 11:41:36 GMT
+
+### Patches
+
+- Fixed an issue where term label was not shown after creation
 
 ## 1.11.1
 Wed, 15 Apr 2020 13:10:24 GMT

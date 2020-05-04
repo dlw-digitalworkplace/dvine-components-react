@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.11.2",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.11.2",
+      "date": "Mon, 04 May 2020 11:41:36 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed an issue where term label was not shown after creation"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.1",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.11.1",
       "date": "Wed, 15 Apr 2020 13:10:24 GMT",

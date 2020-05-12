@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-peoplepicker",
+      "comment": "Updated Office UI Fabic React dependency to latest v5",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-peoplepicker",
+  "email": "nick.sevens@delaware.pro"
+}

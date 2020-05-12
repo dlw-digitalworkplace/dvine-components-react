@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "comment": "Updated Office UI Fabric React dependency to latest v5",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+  "email": "nick.sevens@delaware.pro"
+}

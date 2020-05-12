@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.11.3",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.11.3",
+      "date": "Tue, 12 May 2020 05:08:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updated Office UI Fabric React dependency to latest v5"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.2",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.11.2",
       "date": "Mon, 04 May 2020 11:41:36 GMT",

@@ -1,6 +1,6 @@
 {
   "name": "@dlw-digitalworkplace/react-fabric-peoplepicker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "repository": {
     "type": "git",
@@ -18,12 +18,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@microsoft/office-ui-fabric-react-bundle": "~1.4.1",
     "@microsoft/sp-lodash-subset": "~1.4.1",
     "@pnp/common": "^1.1.2",
     "@pnp/logging": "^1.1.2",
     "@pnp/odata": "^1.1.2",
     "@pnp/sp": "^1.1.2",
+    "office-ui-fabric-react": "^5.135.5",
     "tslib": "^1.9.0"
   },
   "devDependencies": {

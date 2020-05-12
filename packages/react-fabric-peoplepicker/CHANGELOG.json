@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-peoplepicker",
   "entries": [
     {
+      "version": "1.0.5",
+      "tag": "@dlw-digitalworkplace/react-fabric-peoplepicker_v1.0.5",
+      "date": "Tue, 12 May 2020 05:08:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updated Office UI Fabic React dependency to latest v5"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.4",
       "tag": "@dlw-digitalworkplace/react-fabric-peoplepicker_v1.0.4",
       "date": "Mon, 20 Aug 2018 11:38:32 GMT",

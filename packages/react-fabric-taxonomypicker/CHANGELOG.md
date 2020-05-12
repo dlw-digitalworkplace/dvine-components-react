@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Mon, 04 May 2020 11:41:36 GMT and should not be manually modified.
+This log was last generated on Tue, 12 May 2020 05:08:26 GMT and should not be manually modified.
+
+## 1.11.3
+Tue, 12 May 2020 05:08:26 GMT
+
+### Patches
+
+- Updated Office UI Fabric React dependency to latest v5
 
 ## 1.11.2
 Mon, 04 May 2020 11:41:36 GMT

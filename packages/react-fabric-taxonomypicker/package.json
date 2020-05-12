@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@microsoft/office-ui-fabric-react-bundle": "~1.4.1",
+    "office-ui-fabric-react": "^5.135.5",
     "tslib": "^1.9.0"
   },
   "devDependencies": {

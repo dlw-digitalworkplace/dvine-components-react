@@ -8,4 +8,5 @@ export interface ITaxonomyPickerDemoProps {
   showTranslatedLabels: boolean;
   hideDeprecatedTerms: boolean;
   allowAddTerms: boolean;
+  pathDelimiter?: string;
 }

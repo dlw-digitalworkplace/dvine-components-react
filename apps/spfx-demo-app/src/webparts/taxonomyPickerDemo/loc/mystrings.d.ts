@@ -9,6 +9,7 @@ declare interface ITaxonomyPickerDemoWebPartStrings {
   ShowTranslatedLabelsLabel: string;
   HideDeprecatedTermsLabel: string;
   AllowAddTermsLabel: string;
+  PathDelimiterLabel: string;
 }
 
 declare module "TaxonomyPickerDemoWebPartStrings" {

@@ -20,6 +20,7 @@ export interface ITaxonomyPickerDemoWebPartProps {
   showTranslatedLabels: boolean;
   hideDeprecatedTerms: boolean;
   allowAddTerms: boolean;
+  pathDelimiter?: string;
 }
 
 export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
@@ -38,6 +39,7 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
         showTranslatedLabels: this.properties.showTranslatedLabels,
         hideDeprecatedTerms: this.properties.hideDeprecatedTerms,
         allowAddTerms: this.properties.allowAddTerms,
+        pathDelimiter: this.properties.pathDelimiter,
       }
     );
 
@@ -73,6 +75,9 @@ export default class TaxonomyPickerDemoWebPart extends BaseClientSideWebPart<
                 }),
                 PropertyPaneTextField("lcid", {
                   label: strings.LcidFieldLabel,
+                }),
+                PropertyPaneTextField("pathDelimiter", {
+                  label: strings.PathDelimiterLabel,
                 }),
                 PropertyPaneToggle("showTranslatedLabels", {
                   label: strings.ShowTranslatedLabelsLabel,

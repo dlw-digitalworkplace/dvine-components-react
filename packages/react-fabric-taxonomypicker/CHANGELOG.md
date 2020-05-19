@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Tue, 12 May 2020 05:08:26 GMT and should not be manually modified.
+This log was last generated on Tue, 19 May 2020 13:00:02 GMT and should not be manually modified.
+
+## 1.12.0
+Tue, 19 May 2020 13:00:02 GMT
+
+### Minor changes
+
+- Added path delimiter setting to change default semicolon
 
 ## 1.11.3
 Tue, 12 May 2020 05:08:26 GMT

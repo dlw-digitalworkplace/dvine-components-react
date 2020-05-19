@@ -13,6 +13,7 @@ import { getClassName } from "../../utilities";
 import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import { TaxonomyDialog } from "../TaxonomyDialog";
 import { TermPicker } from "../TermPicker";
+import { TermSuggestion } from "../TermPicker/TermSuggestion";
 import { ITaxonomyPickerProps } from "./TaxonomyPicker.types";
 
 const styles = require("./TaxonomyPicker.module.scss");
@@ -98,6 +99,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
             className={css(getClassName("TaxonomyPicker-Picker"), styles.termPicker)}
             disabled={shouldBeDisabled}
             onResolveSuggestions={this._resolveSuggestions}
+            onRenderSuggestionsItem={this._renderSuggestionsItem}
             onChange={this._onSelectedItemsChanged}
             selectedItems={this.state.items}
             defaultSelectedItems={undefined}
@@ -138,11 +140,17 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               showTranslatedLabels={this.props.showTranslatedLabels}
               allowAddTerms={this.props.allowAddTerms}
               hideDeprecatedTerms={this.props.hideDeprecatedTerms}
+              pathDelimiter={this.props.pathDelimiter}
             />
           )}
         </div>
       </div>
     );
+  }
+
+  @autobind
+  private _renderSuggestionsItem(props: ITerm): JSX.Element {
+    return <TermSuggestion {...props} pathDelimiter={this.props.pathDelimiter} />;
   }
 
   @autobind

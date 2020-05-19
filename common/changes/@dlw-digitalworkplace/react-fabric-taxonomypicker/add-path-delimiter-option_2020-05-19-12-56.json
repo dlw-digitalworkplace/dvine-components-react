@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "comment": "Added path delimiter setting to change default semicolon",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+  "email": "nick.sevens@delaware.pro"
+}

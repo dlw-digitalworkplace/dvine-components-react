@@ -10,5 +10,6 @@ define([], function () {
     ShowTranslatedLabelsLabel: "Search translated labels",
     HideDeprecatedTermsLabel: "Hide deprecated Terms",
     AllowAddTermsLabel: "Allow adding of Terms",
+    PathDelimiterLabel: "Path delimiter",
   };
 });

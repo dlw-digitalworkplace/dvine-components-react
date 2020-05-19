@@ -17,6 +17,7 @@ export interface ITaxonomyDialogProps extends IBaseProps {
   exactMatchOnly?: boolean;
   allowAddTerms?: boolean;
   hideDeprecatedTerms?: boolean;
+  pathDelimiter?: string;
 
   isOpen?: boolean;
 

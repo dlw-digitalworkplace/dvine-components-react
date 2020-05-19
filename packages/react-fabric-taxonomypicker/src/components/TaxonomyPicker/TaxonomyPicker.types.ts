@@ -25,4 +25,5 @@ export interface ITaxonomyPickerProps extends IBaseProps {
   allowAddTerms?: boolean;
   defaultLabelOnly?: boolean;
   exactMatchOnly?: boolean;
+  pathDelimiter?: string;
 }

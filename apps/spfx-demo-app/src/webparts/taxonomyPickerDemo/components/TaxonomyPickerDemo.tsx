@@ -34,6 +34,7 @@ export default class TaxonomyPickerDemo extends React.Component<
           hideDeprecatedTerms={this.props.hideDeprecatedTerms}
           selectedItems={this.state.selectedTerms}
           onChange={this._onChange}
+          pathDelimiter={this.props.pathDelimiter}
         />
       </div>
     );

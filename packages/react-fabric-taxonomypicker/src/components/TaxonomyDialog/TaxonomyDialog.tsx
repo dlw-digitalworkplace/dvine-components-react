@@ -11,6 +11,7 @@ import { getClassName } from "../../utilities";
 import { replaceIllegalCharacters } from "../../utilities/invalidchars";
 import { TermAdder } from "../TermAdder";
 import { TermPicker } from "../TermPicker";
+import { TermSuggestion } from "../TermPicker/TermSuggestion";
 import { ITreeViewItem, TreeView } from "../TreeView";
 import { ITaxonomyDialogProps } from "./TaxonomyDialog.types";
 
@@ -89,6 +90,7 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
           <TermPicker
             className={css(getClassName("TaxonomyDialog-Picker"), styles.termPicker)}
             onResolveSuggestions={this._resolveSuggestions}
+            onRenderSuggestionsItem={this._renderSuggestionsItem}
             selectedItems={this.state.selectedItems}
             onChange={this._onSelectedItemsChanged}
             pickerSuggestionsProps={this.props.pickerSuggestionsProps}
@@ -102,6 +104,11 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         </DialogFooter>
       </Dialog>
     );
+  }
+
+  @autobind
+  private _renderSuggestionsItem(props: ITerm): JSX.Element {
+    return <TermSuggestion {...props} pathDelimiter={this.props.pathDelimiter} />;
   }
 
   @autobind

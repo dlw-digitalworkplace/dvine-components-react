@@ -1,65 +1,68 @@
 .node:not(.isRootNode) {
-    margin-left: 16px;
+  margin-left: 16px;
 }
 
 .nodeLabel {
-    align-items: center;
-    box-sizing: border-box;
-    display: flex;
-    height: 24px;
-    padding-left: 14px;
-    position: relative;
-    &.isSelected {
-        .labelText {
-            background: linear-gradient(to bottom, #ffe47f 0%, #ffe6a0 50%, #ffbb47 51%, #ffe37d 100%);
-            border: 1px solid #ff9933;
-            padding: 0 11px 0 1px;
-        }
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: 24px;
+  padding-left: 14px;
+  position: relative;
+  &.isSelected {
+    .labelText {
+      background: linear-gradient(to bottom, #ffe47f 0%, #ffe6a0 50%, #ffbb47 51%, #ffe37d 100%);
+      border: 1px solid #ff9933;
+      padding: 0 11px 0 1px;
     }
-    &.isSelectable {
-        .labelText:hover {
-            border: 1px solid #ff9933;
-            cursor: pointer;
-            padding: 0 11px 0 1px;
-        }
+  }
+  &.isSelectable {
+    .labelText:hover {
+      border: 1px solid #ff9933;
+      cursor: pointer;
+      padding: 0 11px 0 1px;
     }
-    &:not(.isSelectable) {
-        .labelText:hover {
-            cursor: not-allowed;
-        }
+  }
+  &:not(.isSelectable) {
+    .labelText:hover {
+      cursor: not-allowed;
     }
+  }
 }
 
 .nodeLabelNew {
-    padding-left: 30px;
-    :global {
-        .ms-TextField-fieldGroup {
-            height: 22px;
-            line-height: 20px;
-        }
+  padding-left: 30px;
+  :global {
+    .ms-TextField-fieldGroup {
+      height: 22px;
+      line-height: 20px;
     }
+  }
 }
 
 .expandIcon {
-    left: 0;
-    line-height: 24px;
-    position: absolute;
-    top: 0;
-    &:hover {
-        cursor: pointer;
-    }
+  left: 0;
+  line-height: 24px;
+  position: absolute;
+  top: 0;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .tagIcon {
-    line-height: 24px;
-    margin: 0 3px;
+  line-height: 24px;
+  margin: 0 3px;
 }
 
 .labelText {
-    box-sizing: border-box;
-    display: inline-block;
-    font-size: 0.75em;
-    height: 22px;
-    line-height: 20px;
-    padding: 1px 12px 1px 2px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 0.75em;
+  height: 22px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 1px 12px 1px 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

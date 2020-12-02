@@ -26,7 +26,8 @@ export interface ITaxonomyDialogState {
   newItemLabel?: string;
 }
 
-export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonomyDialogState>
+export class TaxonomyDialog
+  extends BaseComponent<ITaxonomyDialogProps, ITaxonomyDialogState>
   implements IDialog {
   protected static defaultProps: Partial<ITaxonomyDialogProps> = {
     pickerSuggestionsProps: {
@@ -57,12 +58,13 @@ export class TaxonomyDialog extends BaseComponent<ITaxonomyDialogProps, ITaxonom
         hidden={!this.props.isOpen}
         modalProps={{
           isBlocking: true,
-          className: styles.dialog,
+          className: css(getClassName("TaxonomyPicker-Dialog"), styles.dialog),
         }}
         onDismiss={this._onDismiss}
         dialogContentProps={{
           type: DialogType.close,
           title: this.props.title || "Browse Term Set",
+          className: css(getClassName("TaxonomyPicker-DialogContent"), styles.dialogContent),
         }}
       >
         {this.state.isOpenTermSet && this.props.allowAddTerms && (

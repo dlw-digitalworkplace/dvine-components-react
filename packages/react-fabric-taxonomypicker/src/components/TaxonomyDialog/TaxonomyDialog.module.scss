@@ -1,47 +1,51 @@
 .dialog {
-    :global {
-        .ms-Dialog-main {
-            min-width: 40vw;
-            @media screen and (max-width: 1365px) {
-                min-width: 50vw;
-            }
-            @media screen and (max-width: 1023px) {
-                min-width: 70vw;
-            }
-            @media screen and (max-width: 639px) {
-                min-width: 80vw;
-            }
-            @media screen and (max-width: 479px) {
-                min-width: 90vw;
-            }
-        }
+  :global {
+    .ms-Dialog-main {
+      min-width: 40vw;
+      @media screen and (max-width: 1365px) {
+        min-width: 50vw;
+      }
+      @media screen and (max-width: 1023px) {
+        min-width: 70vw;
+      }
+      @media screen and (max-width: 639px) {
+        min-width: 80vw;
+      }
+      @media screen and (max-width: 479px) {
+        min-width: 90vw;
+      }
     }
+  }
+}
+
+.dialogContent {
+  max-width: 100%;
 }
 
 .taxonomyTree {
-    border: 1px solid #a6a6a6;
-    box-sizing: border-box;
-    overflow-y: auto;
-    height: 325px;
-    padding: 2px 4px;
-    width: 100%;
+  border: 1px solid #a6a6a6;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 325px;
+  padding: 2px 4px;
+  width: 100%;
 }
 
 .controls {
-    display: flex;
-    margin-top: 20px;
-    @media screen and (max-width: 479px) {
-        flex-direction: column;
-    }
+  display: flex;
+  margin-top: 20px;
+  @media screen and (max-width: 479px) {
+    flex-direction: column;
+  }
 }
 
 .addButton {
-    align-self: baseline;
-    @media screen and (max-width: 479px) {
-        width: 100%;
-    }
+  align-self: baseline;
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 }
 
 .termPicker {
-    flex-grow: 1;
+  flex-grow: 1;
 }

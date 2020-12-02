@@ -2,6 +2,18 @@
   "name": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
   "entries": [
     {
+      "version": "1.12.1",
+      "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.12.1",
+      "date": "Wed, 02 Dec 2020 18:23:42 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix wrapping of long labels in treeview"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.0",
       "tag": "@dlw-digitalworkplace/react-fabric-taxonomypicker_v1.12.0",
       "date": "Tue, 19 May 2020 13:00:02 GMT",

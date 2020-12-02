@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Tue, 19 May 2020 13:00:02 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Dec 2020 18:23:42 GMT and should not be manually modified.
+
+## 1.12.1
+Wed, 02 Dec 2020 18:23:42 GMT
+
+### Patches
+
+- Fix wrapping of long labels in treeview
 
 ## 1.12.0
 Tue, 19 May 2020 13:00:02 GMT

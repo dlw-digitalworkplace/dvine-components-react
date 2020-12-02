@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+      "comment": "Fix wrapping of long labels in treeview",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@dlw-digitalworkplace/react-fabric-taxonomypicker",
+  "email": "nick.sevens@delaware.pro"
+}

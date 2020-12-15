@@ -29,14 +29,6 @@ export interface ITaxonomyDialogState {
 export class TaxonomyDialog
   extends BaseComponent<ITaxonomyDialogProps, ITaxonomyDialogState>
   implements IDialog {
-  protected static defaultProps: Partial<ITaxonomyDialogProps> = {
-    pickerSuggestionsProps: {
-      suggestionsHeaderText: "Suggested Terms",
-      noResultsFoundText: "No results found",
-      loadingText: "Loading...",
-    },
-  };
-
   constructor(props: ITaxonomyDialogProps) {
     super(props);
 
@@ -53,6 +45,8 @@ export class TaxonomyDialog
   }
 
   public render(): JSX.Element {
+    const { labels } = this.props;
+
     return (
       <Dialog
         hidden={!this.props.isOpen}
@@ -68,7 +62,10 @@ export class TaxonomyDialog
         }}
       >
         {this.state.isOpenTermSet && this.props.allowAddTerms && (
-          <TermAdder addNewItemClick={this._onAddNewItemClick} />
+          <TermAdder
+            addNewItemClick={this._onAddNewItemClick}
+            labels={labels && labels.termAdderLabels}
+          />
         )}
         <div className={css(getClassName("TaxonomyDialog-Tree"), styles.taxonomyTree)}>
           <TreeView
@@ -87,7 +84,11 @@ export class TaxonomyDialog
         </div>
 
         <div className={css(getClassName("TaxonomyDialog-Controls"), styles.controls)}>
-          <DefaultButton className={styles.addButton} text="Add" onClick={this._addSelectedTerm} />
+          <DefaultButton
+            className={styles.addButton}
+            text={(labels && labels.addButtonLabel) || "Add"}
+            onClick={this._addSelectedTerm}
+          />
 
           <TermPicker
             className={css(getClassName("TaxonomyDialog-Picker"), styles.termPicker)}
@@ -95,14 +96,25 @@ export class TaxonomyDialog
             onRenderSuggestionsItem={this._renderSuggestionsItem}
             selectedItems={this.state.selectedItems}
             onChange={this._onSelectedItemsChanged}
-            pickerSuggestionsProps={this.props.pickerSuggestionsProps}
+            pickerSuggestionsProps={{
+              suggestionsHeaderText: "Suggested Terms",
+              noResultsFoundText: "No results found",
+              loadingText: "Loading...",
+              ...this.props.pickerSuggestionsProps,
+            }}
             itemLimit={this.props.itemLimit}
           />
         </div>
 
         <DialogFooter>
-          <PrimaryButton text="OK" onClick={this._saveChanges} />
-          <DefaultButton text="Cancel" onClick={this._onDismiss} />
+          <PrimaryButton
+            text={(labels && labels.okButtonLabel) || "OK"}
+            onClick={this._saveChanges}
+          />
+          <DefaultButton
+            text={(labels && labels.cancelButtonLabel) || "Cancel"}
+            onClick={this._onDismiss}
+          />
         </DialogFooter>
       </Dialog>
     );

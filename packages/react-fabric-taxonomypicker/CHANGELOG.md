@@ -1,6 +1,13 @@
 # Change Log - @dlw-digitalworkplace/react-fabric-taxonomypicker
 
-This log was last generated on Wed, 02 Dec 2020 18:23:42 GMT and should not be manually modified.
+This log was last generated on Tue, 15 Dec 2020 13:48:42 GMT and should not be manually modified.
+
+## 1.13.0
+Tue, 15 Dec 2020 13:48:42 GMT
+
+### Minor changes
+
+- Added localizable labels in all taxonomy picker controls
 
 ## 1.12.1
 Wed, 02 Dec 2020 18:23:42 GMT

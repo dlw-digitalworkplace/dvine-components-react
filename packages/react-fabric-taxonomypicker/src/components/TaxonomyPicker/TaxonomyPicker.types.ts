@@ -2,6 +2,7 @@ import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
 import { IIconProps } from "office-ui-fabric-react/lib/Icon";
 import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
 import { ITerm } from "../../model/ITerm";
+import { ITaxonomyDialogLabels } from "../TaxonomyDialog/TaxonomyDialog.types";
 
 export interface ITaxonomyPickerProps extends IBaseProps {
   absoluteSiteUrl: string;
@@ -26,4 +27,10 @@ export interface ITaxonomyPickerProps extends IBaseProps {
   defaultLabelOnly?: boolean;
   exactMatchOnly?: boolean;
   pathDelimiter?: string;
+  labels?: ITaxonomyPickerLabels;
+}
+
+export interface ITaxonomyPickerLabels {
+  openDialogButtonTitle?: string;
+  dialogLabels?: ITaxonomyDialogLabels;
 }

@@ -1,6 +1,7 @@
 import { IBaseProps } from "@uifabric/utilities/lib/BaseComponent";
 import { IBasePickerSuggestionsProps } from "office-ui-fabric-react/lib/Pickers";
 import { ITerm } from "../../model/ITerm";
+import { ITermAdderLabels } from "../TermAdder";
 import { ITreeViewItem } from "../TreeView";
 
 export interface ITaxonomyDialogProps extends IBaseProps {
@@ -22,9 +23,17 @@ export interface ITaxonomyDialogProps extends IBaseProps {
   isOpen?: boolean;
 
   lcid?: number;
+  labels?: ITaxonomyDialogLabels;
 
   onSave?: (items: ITerm[]) => void;
   onDismiss?: () => void;
+}
+
+export interface ITaxonomyDialogLabels {
+  addButtonLabel?: string;
+  cancelButtonLabel?: string;
+  okButtonLabel?: string;
+  termAdderLabels?: ITermAdderLabels;
 }
 
 export const testData: ITreeViewItem<ITerm | null> = {

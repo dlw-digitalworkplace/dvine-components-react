@@ -29,14 +29,10 @@ interface IRequestedTerm {
   label: string;
 }
 
-export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonomyPickerState>
+export class TaxonomyPicker
+  extends BaseComponent<ITaxonomyPickerProps, ITaxonomyPickerState>
   implements IBasePicker<ITerm> {
   protected static defaultProps: Partial<ITaxonomyPickerProps> = {
-    pickerSuggestionsProps: {
-      suggestionsHeaderText: "Suggested Terms",
-      noResultsFoundText: "No results found",
-      loadingText: "Loading...",
-    },
     iconProps: {
       iconName: "Tag",
     },
@@ -86,7 +82,17 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
   }
 
   public render(): JSX.Element {
-    const { label, required, disabled, isLoading, iconProps, allowAddTerms, ...rest } = this.props;
+    const {
+      label,
+      required,
+      disabled,
+      isLoading,
+      iconProps,
+      allowAddTerms,
+      pickerSuggestionsProps,
+      labels,
+      ...rest
+    } = this.props;
     const shouldBeDisabled = disabled || isLoading;
 
     return (
@@ -111,6 +117,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
                 : "No results found",
               suggestionsHeaderText: "Suggested Terms",
               loadingText: "Loading...",
+              ...pickerSuggestionsProps,
             }}
           />
 
@@ -119,7 +126,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
             disabled={shouldBeDisabled}
             iconProps={iconProps}
             onClick={this._openDialog}
-            title={"Open term picker"}
+            title={(labels && labels.openDialogButtonTitle) || "Open term picker"}
           />
 
           {this.state.isPopupOpen && (
@@ -141,6 +148,7 @@ export class TaxonomyPicker extends BaseComponent<ITaxonomyPickerProps, ITaxonom
               allowAddTerms={this.props.allowAddTerms}
               hideDeprecatedTerms={this.props.hideDeprecatedTerms}
               pathDelimiter={this.props.pathDelimiter}
+              labels={labels && labels.dialogLabels}
             />
           )}
         </div>
